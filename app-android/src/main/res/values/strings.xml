@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Notes Android App</string>
+
+    <string name="activity_listnotes_title">Notes list</string>
+    <string name="activity_listnotes_load_error">Failed to list the notes: %s</string>
+    <string name="activity_listnotes_load">Reload</string>
+    <string name="activity_listnotes_add">Add</string>
+
+    <string name="activity_addnote_title">Add note</string>
+    <string name="activity_addnote_load_error">Failed to add the note: %s</string>
+
+    <string name="activity_serverurl_host">Host</string>
+    <string name="activity_serverurl_port">Port</string>
+
+</resources>

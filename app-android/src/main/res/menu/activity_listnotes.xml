@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/activity_listnotes.load"
+          android:icon="@android:drawable/stat_notify_sync"
+          android:title="@string/activity_listnotes_load"
+          android:showAsAction="always"/>
+    <item android:id="@+id/activity_listnotes.add"
+          android:icon="@android:drawable/ic_input_add"
+          android:title="@string/activity_listnotes_add"
+          android:showAsAction="always"/>/>
+</menu>
