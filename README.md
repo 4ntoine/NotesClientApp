@@ -21,6 +21,19 @@
 Client-side application requires [server-side JVM application](https://github.com/4ntoine/NotesServerApp) to be running.
 Applications interact over HTTP REST. Make sure you run it before running Android application. 
 
+# MVP
+
+Both apps use MVP design pattern (see `app-mvp` module):
+
+![MVP](images/arch/mvp.png?raw=true)
+
+Android and JavaFX apps just provide concrete `View` implementations and reuse `Model` and `Presenter` from `app-mvp`.
+In order to interact with server-side app `Model` has a reference to `UseCase` implementation (from server-side `app-api`).
+In order to pass boundary we use according `Controller` that implement `UseCase` and abstracts transport/protocol.
+So both apps use `app-infra-rest-retrofit` module with Controllers which can be easily replaced with another one.
+
+![MVP](images/arch/sequence.png?raw=true)
+
 # Building
 
 Applications use `app-api` module from server-side application repository.
