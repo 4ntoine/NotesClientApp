@@ -45,6 +45,8 @@ or
 * use [Gradle composite-build](https://docs.gradle.org/current/userguide/composite_builds.html):
 clone `NotesServerApp` repository to _../NotesServerApp_ directory (no separate building/publication is required).
 
+## Android app
+
 In this repository root directory:
 
 	./gradlew app-android:assemble
@@ -71,8 +73,33 @@ One can find few unit tests that demonstrate some benefits of clean architecture
 
 ### Android app
 
-Run NotesServerApp, install Android app	to your device and launch it.
-Add a note, make sure you can see it in the list.
+Run NotesServerApp, install Android app	to your device/emulator:
+
+	adb install ./app-android/build/outputs/apk/debug/app-android-debug.apk
+
+and run the app.
+
+Type server-side app host and port:
+
+![Server host and port](images/app/app-android/1_connection.png?raw=true)
+
+Make sure you can see connection error:
+
+![Connection error](images/app/app-android/2_1_listnotes_error.png?raw=true)
+
+Run server-side app and click "Reload" button to reload the notes list in Android app:
+
+![List notes loading progress](images/app/app-android/2_2_listnotes_progress.png?raw=true)
+![Empty notes list](images/app/app-android/2_3_listnotes_empty.png?raw=true)
+
+Click "Add" button and type note title and body:
+
+![Add note](images/app/app-android/3_1_addnote_input.png?raw=true)
+![Add note progress](images/app/app-android/2_2_listnotes_progress.png?raw=true)
+
+Make sure you can see added note:
+
+![Notes list](images/app/app-android/4_listnotes.png?raw=true)
 
 ### JavaFX app
 
