@@ -18,4 +18,6 @@ before_script:
   - ./gradlew clean assemble publishToMavenLocal
   - cd ..
 script:
-  - ./gradlew clean test assemble
+  - ./gradlew clean test
+  - ./gradlew clean app-android:assemble
+  - ./gradlew clean app-javafx:shadowJar

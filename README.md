@@ -4,10 +4,17 @@
 
 ## Client-side
 
+`app-mvp` is a client-side JVM MVP application skeleton for simple notes keeping in Kotlin.
+
+`app-infra-rest-retrofit` is an infra layer - client REST controllers that are used by client apps.
+
 ### Mobile - Android
 
-This is a client-side JVM MVP application skeleton for simple notes keeping that interacts with server-side
-JVM application via REST in Kotlin. Also it includes Android app based on that.
+`app-android` is an Android app.
+
+### Desktop - JavaFX
+
+`app-javafx` is a desktop JavaFX app.
 
 ## Server-side
 
@@ -25,22 +32,63 @@ or
 * use [Gradle composite-build](https://docs.gradle.org/current/userguide/composite_builds.html):
 clone `NotesServerApp` repository to _../NotesServerApp_ directory (no separate building/publication is required).
 
-Second, in this repository root directory:
+In this repository root directory:
 
-	./gradlew assemble
+	./gradlew app-android:assemble
+
+Find compiled `.apk`s in `./app-android/build/outputs/apk/` directories.
+
+## JavaFX app
+
+In this repository root directory:
+
+    ./gradlew app-javafx:shadowJar
+
+Find compiled `app-javafx-all.jar` "shadow" jar (includes all dependencies) in `./app-javafx/build/libs/` directory.
 
 # Testing
 
 ## Unit testing
 
-One can find few unit tests that demonstrate some benefits of clean architecture for testing.
+One can find few unit tests that demonstrate some benefits of clean architecture for testing:
 
 	./gradlew test
 	
 ## Manual testing
 
+### Android app
+
 Run NotesServerApp, install Android app	to your device and launch it.
 Add a note, make sure you can see it in the list.
+
+### JavaFX app
+
+Stop server-side app (just to test errors handling).
+Run JavaFX app:
+
+	java -jar app-javafx/build/libs/app-javafx-all.jar  
+
+Type server-side app host and port:
+
+![Server host and port](images/app/app-javafx/1_connection.png?raw=true)
+
+Make sure you can see connection error:
+
+![Connection error](images/app/app-javafx/2_1_listnotes_error.png?raw=true)
+
+Run server-side app and click "Reload" button to reload the notes list in javafx app:
+
+![List notes loading progress](images/app/app-javafx/2_2_listnotes_progress.png?raw=true)
+![Empty notes list](images/app/app-javafx/2_3_listnotes_empty.png?raw=true)
+
+Click "Add" button and type note title and body:
+
+![Add note](images/app/app-javafx/3_1_addnote_input.png?raw=true)
+![Add note progress](images/app/app-javafx/2_2_listnotes_progress.png?raw=true)
+
+Make sure you can see added note:
+
+![Notes list](images/app/app-javafx/4_listnotes.png?raw=true)
 
 # Frameworks and tools
 
@@ -48,6 +96,8 @@ Add a note, make sure you can see it in the list.
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) IDE for coding
 * [Gradle](https://gradle.org/) with Groovy DSL for building
 * [Retrofit2](https://square.github.io/retrofit/) for HTTP REST
+* [JavaFX8](https://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html) for Java UI
+* [Gradle Shadow plugin](https://github.com/johnrengelman/shadow) for building of jar file with all dependencies
 * [Mockito](https://site.mockito.org/) and [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin) for unit-testing
 
 # Feedback

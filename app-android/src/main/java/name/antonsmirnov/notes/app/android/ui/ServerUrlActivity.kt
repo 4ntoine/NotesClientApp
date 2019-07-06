@@ -8,14 +8,13 @@ import android.support.v7.widget.AppCompatEditText
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import name.antonsmirnov.notes.app.android.R
-import name.antonsmirnov.notes.app.android.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.RestApi
 import name.antonsmirnov.notes.presenter.serverurl.Model
 import name.antonsmirnov.notes.presenter.serverurl.Presenter
 import name.antonsmirnov.notes.presenter.serverurl.PresenterImpl
 import name.antonsmirnov.notes.presenter.serverurl.View
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 class ServerUrlActivity : AppCompatActivity(), View {
 

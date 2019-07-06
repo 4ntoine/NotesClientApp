@@ -1,4 +1,4 @@
-package name.antonsmirnov.notes.app.android.controller.rest
+package name.antonsmirnov.notes.app.controller.rest
 
 import name.antonsmirnov.notes.usecase.ListNotes
 

@@ -1,0 +1,41 @@
+plugins {
+    id 'kotlin'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'javafx-gradle-plugin'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jfx {
+    mainClass = 'name.antonsmirnov.notes.app.javafx.Application'
+    vendor = 'NotesJavaFx'
+}
+
+jar {
+    manifest {
+        attributes ('Main-Class': 'name.antonsmirnov.notes.app.javafx.Application')
+    }
+}
+
+shadowJar {
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}
+
+dependencies {
+    api project(':app-mvp')
+    implementation project(':app-infra-rest-retrofit')
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // JavaFx
+    def javaFxJar = file("${System.properties['java.home']}/../lib/ant-javafx.jar")
+    if (javaFxJar.exists()) {
+        implementation files(javaFxJar)
+    }
+}

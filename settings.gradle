@@ -1,7 +1,9 @@
 rootProject.name = 'NotesClientApp'
 
 include 'app-mvp'
+include 'app-infra-rest-retrofit'
 include 'app-android'
+include 'app-javafx'
 
 /*
 Using Gradle composite builds for easier deps management and changes across modules.
@@ -10,5 +12,5 @@ Check out NotesServerApp to "../NotesServerApp" or install modules to
 any Maven repository (eg. local).
  */
 if (file("../NotesServerApp").exists()) {
-	includeBuild "../NotesServerApp"
+    includeBuild "../NotesServerApp"
 }

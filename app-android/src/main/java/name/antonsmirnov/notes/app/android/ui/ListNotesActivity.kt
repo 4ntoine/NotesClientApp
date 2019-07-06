@@ -11,8 +11,8 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.android.adapter.ListNotesAdapter
-import name.antonsmirnov.notes.app.android.controller.rest.ListNotesController
-import name.antonsmirnov.notes.app.android.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.ListNotesController
+import name.antonsmirnov.notes.app.controller.rest.RestApi
 import name.antonsmirnov.notes.presenter.listnotes.Model
 import name.antonsmirnov.notes.presenter.listnotes.Presenter
 import name.antonsmirnov.notes.presenter.listnotes.PresenterImpl
@@ -115,35 +115,38 @@ class ListNotesActivity : AppCompatActivity(), View {
         setControlVisibility(list, visible)
     }
 
-    override fun updateView(model: Model) = runOnUiThread {
-        when (val state = model.state) {
-            is Model.State.Initial -> {
-                setIndicatorVisibility(false)
-                setListVisibility(false)
-            }
+    override fun updateView(_model: Model) {
+        val model = _model.stateCopy()
+        runOnUiThread {
+            when (val state = model.state) {
+                is Model.State.Initial -> {
+                    setIndicatorVisibility(false)
+                    setListVisibility(false)
+                }
 
-            is Model.State.Loading -> {
-                setIndicatorVisibility(true)
-                setListVisibility(false)
-            }
+                is Model.State.Loading -> {
+                    setIndicatorVisibility(true)
+                    setListVisibility(false)
+                }
 
-            is Model.State.Loaded -> viewAdapter.apply {
-                setIndicatorVisibility(false)
-                setListVisibility(true)
+                is Model.State.Loaded -> viewAdapter.apply {
+                    setIndicatorVisibility(false)
+                    setListVisibility(true)
 
-                notes.clear()
-                notes.addAll((model.state as Model.State.Loaded).notes)
-                notifyDataSetChanged()
-            }
+                    notes.clear()
+                    notes.addAll((model.state as Model.State.Loaded).notes)
+                    notifyDataSetChanged()
+                }
 
-            is Model.State.LoadError -> viewAdapter.apply {
-                setIndicatorVisibility(false)
-                setListVisibility(false)
+                is Model.State.LoadError -> viewAdapter.apply {
+                    setIndicatorVisibility(false)
+                    setListVisibility(false)
 
-                notes.clear()
-                notifyDataSetChanged()
+                    notes.clear()
+                    notifyDataSetChanged()
 
-                showError(state.error)
+                    showError(state.error)
+                }
             }
         }
     }

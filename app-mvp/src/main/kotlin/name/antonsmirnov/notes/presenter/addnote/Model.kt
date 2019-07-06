@@ -52,4 +52,10 @@ class Model(
     }
 
     var presenter: Presenter? = null
+
+    fun stateCopy(): Model {
+        val copy = Model(this.useCase, this.note)
+        copy.state = this.state
+        return copy
+    }
 }

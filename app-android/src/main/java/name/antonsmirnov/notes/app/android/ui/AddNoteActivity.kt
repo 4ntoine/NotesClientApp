@@ -7,8 +7,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import name.antonsmirnov.notes.app.android.R
-import name.antonsmirnov.notes.app.android.controller.rest.AddNoteController
-import name.antonsmirnov.notes.app.android.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.AddNoteController
+import name.antonsmirnov.notes.app.controller.rest.RestApi
 import name.antonsmirnov.notes.domain.Note
 import name.antonsmirnov.notes.presenter.addnote.Model
 import name.antonsmirnov.notes.presenter.addnote.Presenter
@@ -72,17 +72,20 @@ class AddNoteActivity : AppCompatActivity(), View {
         setControlVisibility(indicator, visible)
     }
 
-    override fun updateView(model: Model) = runOnUiThread {
-        when (model.state) {
-            is Model.State.Executing -> setIndicatorVisibility(true)
-            is Model.State.ExecutionError -> {
-                setIndicatorVisibility(false)
-                showError((model.state as Model.State.ExecutionError).error)
-            }
-            else -> {
-                setIndicatorVisibility(false)
-                editTextTitle.setText(model.note.title)
-                editTextBody.setText(model.note.body ?: "")
+    override fun updateView(_model: Model) {
+        val model = _model.stateCopy()
+        runOnUiThread {
+            when (model.state) {
+                is Model.State.Executing -> setIndicatorVisibility(true)
+                is Model.State.ExecutionError -> {
+                    setIndicatorVisibility(false)
+                    showError((model.state as Model.State.ExecutionError).error)
+                }
+                else -> {
+                    setIndicatorVisibility(false)
+                    editTextTitle.setText(model.note.title)
+                    editTextBody.setText(model.note.body ?: "")
+                }
             }
         }
     }
@@ -94,9 +97,12 @@ class AddNoteActivity : AppCompatActivity(), View {
             .show()
     }
 
-    override fun updateModel(model: Model) = runOnUiThread {
-        model.note.title = editTextTitle.text.toString()
-        model.note.body = if (editTextBody.text.isNotEmpty()) editTextBody.text.toString() else null
+    override fun updateModel(_model: Model) {
+        val model = _model.stateCopy()
+        runOnUiThread {
+            model.note.title = editTextTitle.text.toString()
+            model.note.body = if (editTextBody.text.isNotEmpty()) editTextBody.text.toString() else null
+        }
     }
 
     override fun showNotesList() = runOnUiThread {

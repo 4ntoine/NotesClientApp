@@ -57,7 +57,9 @@ class PresenterImpl(
         view?.updateModel(model)
         threadManager.run {
             addNote()
-            view?.showNotesList()
+            if (model.state !is Model.State.ExecutionError) {
+                view?.showNotesList()
+            }
         }
     }
 
