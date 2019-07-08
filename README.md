@@ -68,7 +68,27 @@ Find compiled `app-javafx-all.jar` "shadow" jar (includes all dependencies) in `
 One can find few unit tests that demonstrate some benefits of clean architecture for testing:
 
 	./gradlew test
-	
+
+## Automated UI Testing
+
+### Android app
+
+First, create and run AVD. In this repository root directory:
+
+	./gradlew app-android:connectedAndroidTest
+
+Make sure all the tests passed:
+
+    ...
+    12:12:53 V/InstrumentationResultParser: Time: 15.482
+    12:12:53 V/InstrumentationResultParser: 
+    12:12:53 V/InstrumentationResultParser: OK (4 tests)
+    12:12:53 V/InstrumentationResultParser: 
+    12:12:53 V/InstrumentationResultParser: 
+    12:12:53 V/InstrumentationResultParser: INSTRUMENTATION_CODE: -1
+    12:12:53 V/InstrumentationResultParser: 
+    12:12:53 I/XmlResultReporter: XML test result file generated at /Users/asmirnov/Documents/dev/src/Notes/NotesClientApp/app-android/build/outputs/androidTest-results/connected/TEST-Nexus_5X_API_25_-_dev(AVD) - 7.1.1-app-android-.xml. Total tests 4, passed 4, 
+
 ## Manual testing
 
 ### Android app
@@ -139,6 +159,7 @@ Make sure you can see added note:
 * [JavaFX8](https://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html) for Java UI
 * [Gradle Shadow plugin](https://github.com/johnrengelman/shadow) for building of jar file with all dependencies
 * [Mockito](https://site.mockito.org/) and [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin) for unit-testing
+* [Espresso](https://developer.android.com/training/testing/espresso) for Android UI testing
 
 # Feedback
 

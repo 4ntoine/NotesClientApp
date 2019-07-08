@@ -2,6 +2,8 @@ ext {
     module_version = '0.1'
     server_module_version = '1.0'
     mockito_kotlin_version = '2.1.0'
+    androidx_version = '1.0.2'
+    test_version = '1.1.0'
 }
 
 buildscript {
