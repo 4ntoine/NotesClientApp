@@ -13,21 +13,21 @@ import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.android.adapter.ListNotesAdapter
 import name.antonsmirnov.notes.app.controller.rest.ListNotesController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
-import name.antonsmirnov.notes.presenter.listnotes.Model
-import name.antonsmirnov.notes.presenter.listnotes.Presenter
-import name.antonsmirnov.notes.presenter.listnotes.PresenterImpl
-import name.antonsmirnov.notes.presenter.listnotes.View
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesModel
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenter
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenterImpl
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesView
 import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 import android.view.View as AndroidView
 
-class ListNotesActivity : AppCompatActivity(), View {
+class ListNotesActivity : AppCompatActivity(), ListNotesView {
 
     private lateinit var viewAdapter: ListNotesAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var list: RecyclerView
     private lateinit var indicator: ProgressBar
 
-    override var presenter: Presenter? = null
+    override var presenter: ListNotesPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +43,10 @@ class ListNotesActivity : AppCompatActivity(), View {
 
     private fun initMvp() {
         if (lastCustomNonConfigurationInstance != null) {
-            presenter = lastCustomNonConfigurationInstance as Presenter
+            presenter = lastCustomNonConfigurationInstance as ListNotesPresenter
         } else {
-            val model = Model(ListNotesController(RestApi.instance))
-            presenter = PresenterImpl(model, BackgroundThreadManager())
+            val model = ListNotesModel(ListNotesController(RestApi.instance))
+            presenter = ListNotesPresenterImpl(model, BackgroundThreadManager())
         }
         presenter?.attachView(this)
     }
@@ -115,30 +115,30 @@ class ListNotesActivity : AppCompatActivity(), View {
         setControlVisibility(list, visible)
     }
 
-    override fun updateView(_model: Model) {
+    override fun updateView(_model: ListNotesModel) {
         val model = _model.stateCopy()
         runOnUiThread {
             when (val state = model.state) {
-                is Model.State.Initial -> {
+                is ListNotesModel.State.Initial -> {
                     setIndicatorVisibility(false)
                     setListVisibility(false)
                 }
 
-                is Model.State.Loading -> {
+                is ListNotesModel.State.Loading -> {
                     setIndicatorVisibility(true)
                     setListVisibility(false)
                 }
 
-                is Model.State.Loaded -> viewAdapter.apply {
+                is ListNotesModel.State.Loaded -> viewAdapter.apply {
                     setIndicatorVisibility(false)
                     setListVisibility(true)
 
                     notes.clear()
-                    notes.addAll((model.state as Model.State.Loaded).notes)
+                    notes.addAll((model.state as ListNotesModel.State.Loaded).notes)
                     notifyDataSetChanged()
                 }
 
-                is Model.State.LoadError -> viewAdapter.apply {
+                is ListNotesModel.State.LoadError -> viewAdapter.apply {
                     setIndicatorVisibility(false)
                     setListVisibility(false)
 

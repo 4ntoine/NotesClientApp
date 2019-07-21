@@ -12,6 +12,14 @@
 
 `app-android` is an Android app.
 
+### Mobile - iOS
+
+To create podspec files run in root project directory:
+
+    ./gradlew podspec
+
+`app-ios` is an iOS app.
+
 ### Desktop - JavaFX
 
 `app-javafx` is a desktop JavaFX app.
@@ -49,7 +57,7 @@ clone `NotesServerApp` repository to _../NotesServerApp_ directory (no separate 
 
 In this repository root directory:
 
-	./gradlew app-android:assemble
+    ./gradlew app-android:assemble
 
 Find compiled `.apk`s in `./app-android/build/outputs/apk/` directories.
 
@@ -61,13 +69,29 @@ In this repository root directory:
 
 Find compiled `app-javafx-all.jar` "shadow" jar (includes all dependencies) in `./app-javafx/build/libs/` directory.
 
+## iOS app
+
+Compile and install podspec files for server-side and client apps in root directories:
+
+    ./gradlew podspec
+    
+Install `app-mvp` pod in `app-ios` directory:
+
+    pod install
+
 # Testing
 
 ## Unit testing
 
+### JavaFX/Android app
+
 One can find few unit tests that demonstrate some benefits of clean architecture for testing:
 
-	./gradlew test
+    ./gradlew test
+
+### iOS app
+
+One can find few unit tests in `app-ios/app-iosTests`. Run them in XCode.
 
 ## Automated UI Testing
 
@@ -75,7 +99,7 @@ One can find few unit tests that demonstrate some benefits of clean architecture
 
 First, create and run AVD. In this repository root directory:
 
-	./gradlew app-android:connectedAndroidTest
+    ./gradlew app-android:connectedAndroidTest
 
 Make sure all the tests passed:
 
@@ -93,9 +117,10 @@ Make sure all the tests passed:
 
 ### Android app
 
-Run NotesServerApp, install Android app	to your device/emulator:
+Stop server-side app (just to test errors handling).
+Install Android app to your device/emulator:
 
-	adb install ./app-android/build/outputs/apk/debug/app-android-debug.apk
+    adb install ./app-android/build/outputs/apk/debug/app-android-debug.apk
 
 and run the app.
 
@@ -126,7 +151,7 @@ Make sure you can see added note:
 Stop server-side app (just to test errors handling).
 Run JavaFX app:
 
-	java -jar app-javafx/build/libs/app-javafx-all.jar  
+    java -jar app-javafx/build/libs/app-javafx-all.jar  
 
 Type server-side app host and port:
 
@@ -150,16 +175,47 @@ Make sure you can see added note:
 
 ![Notes list](images/app/app-javafx/4_listnotes.png?raw=true)
 
+### iOS app
+
+Stop server-side app (just to test errors handling).
+Run the app in iOS device simulator.
+
+Type server-side app host and port:
+
+![Server host and port](images/app/app-ios/1_connection.png?raw=true)
+
+Make sure you can see connection error:
+
+![Connection error](images/app/app-ios/2_1_listnotes_error.png?raw=true)
+
+Run server-side app and click "Reload" button to reload the notes list in iOS app:
+
+![Empty notes list](images/app/app-ios/2_3_listnotes_empty.png?raw=true)
+
+Click "Add" button and type note title and body:
+
+![Add note](images/app/app-ios/3_1_addnote_input.png?raw=true)
+
+Make sure you can see added note:
+
+![Notes list](images/app/app-ios/4_listnotes.png?raw=true)
+
+Note: currently there is Kotlin/Native bug, so note `id` is displayed instead of `body`.
+
 # Frameworks and tools
 
 * [Kotlin](https://kotlinlang.org/) programming language
-* [IntelliJ IDEA](https://www.jetbrains.com/idea/) IDE for coding
+* [Kotlin Multiplatform](https://kotlinlang.org/docs/reference/multiplatform.html) for multiplatform configuration/building
+* [IntelliJ IDEA](https://www.jetbrains.com/idea/) IDE for JVM coding
+* [Swift](https://developer.apple.com/swift/) programming language
+* [Xcode](https://developer.apple.com/xcode/) IDE for iOS coding
 * [Gradle](https://gradle.org/) with Groovy DSL for building
 * [Retrofit2](https://square.github.io/retrofit/) for HTTP REST
 * [JavaFX8](https://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html) for Java UI
 * [Gradle Shadow plugin](https://github.com/johnrengelman/shadow) for building of jar file with all dependencies
 * [Mockito](https://site.mockito.org/) and [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin) for unit-testing
 * [Espresso](https://developer.android.com/training/testing/espresso) for Android UI testing
+* [Xcode tests](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/01-introduction.html) for iOS testing
 
 # Feedback
 

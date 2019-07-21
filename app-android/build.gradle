@@ -23,6 +23,12 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {

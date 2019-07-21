@@ -9,16 +9,16 @@ import android.widget.Toast
 import com.google.gson.GsonBuilder
 import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.controller.rest.RestApi
-import name.antonsmirnov.notes.presenter.serverurl.Model
-import name.antonsmirnov.notes.presenter.serverurl.Presenter
-import name.antonsmirnov.notes.presenter.serverurl.PresenterImpl
-import name.antonsmirnov.notes.presenter.serverurl.View
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlModel
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenter
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenterImpl
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ServerUrlActivity : AppCompatActivity(), View {
+class ServerUrlActivity : AppCompatActivity(), ServerUrlView {
 
-    override var presenter: Presenter? = null
+    override var presenter: ServerUrlPresenter? = null
 
     private lateinit var editTextHost: AppCompatEditText
     private lateinit var editTextPort: AppCompatEditText
@@ -47,17 +47,17 @@ class ServerUrlActivity : AppCompatActivity(), View {
 
     private fun initMvp() {
         if (lastCustomNonConfigurationInstance != null) {
-            presenter = lastCustomNonConfigurationInstance as Presenter
+            presenter = lastCustomNonConfigurationInstance as ServerUrlPresenter
         } else {
             // we want to add app-specific logics: init App-global object that uses updated model data
             // TODO: what's the best way to do it (subclass model/presenter/add listeners/etc)?
-            val model = object : Model("localhost", 8080U) {
+            val model = object : ServerUrlModel("localhost", 8080U) {
                 override fun update(host: String, port: UInt) {
                     super.update(host, port)
                     initRestApi(host, port)
                 }
             }
-            presenter = PresenterImpl(model)
+            presenter = ServerUrlPresenterImpl(model)
         }
         presenter?.attachView(this)
     }

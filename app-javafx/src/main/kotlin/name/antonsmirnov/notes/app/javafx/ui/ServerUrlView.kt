@@ -13,18 +13,18 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import name.antonsmirnov.notes.app.controller.rest.RestApi
-import name.antonsmirnov.notes.presenter.serverurl.Model
-import name.antonsmirnov.notes.presenter.serverurl.Presenter
-import name.antonsmirnov.notes.presenter.serverurl.PresenterImpl
-import name.antonsmirnov.notes.presenter.serverurl.View
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlModel
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenter
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenterImpl
+import name.antonsmirnov.notes.presenter.serverurl.ServerUrlView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ServerUrlView(
     val stage: Stage
-) : View {
+) : ServerUrlView {
 
-    override var presenter: Presenter? = null
+    override var presenter: ServerUrlPresenter? = null
 
     private lateinit var spVertical: VBox
     private lateinit var tfHost: TextField
@@ -98,13 +98,13 @@ class ServerUrlView(
         }
 
         fun navigate(stage: Stage) {
-            val model = object : Model("localhost", 8080U) {
+            val model = object : ServerUrlModel("localhost", 8080U) {
                 override fun update(host: String, port: UInt) {
                     super.update(host, port)
                     initRestApi(host, port)
                 }
             }
-            val presenter = PresenterImpl(model)
+            val presenter = ServerUrlPresenterImpl(model)
             val view = ServerUrlView(stage)
             view.show()
             presenter.attachView(view)

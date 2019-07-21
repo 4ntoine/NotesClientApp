@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import name.antonsmirnov.notes.domain.Note
+import name.antonsmirnov.notes.presenter.Note
 import name.antonsmirnov.notes.app.android.R
 
 class ListNotesAdapter(val notes: MutableList<Note>)

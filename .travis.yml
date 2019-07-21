@@ -29,6 +29,7 @@ before_script:
   - adb shell input keyevent 82 &
 script:
   - ./gradlew clean test
+  - ./gradlew clean assemble podspec
   - ./gradlew clean app-android:assemble
   - ./gradlew clean app-android:connectedAndroidTest
   - ./gradlew clean app-javafx:shadowJar

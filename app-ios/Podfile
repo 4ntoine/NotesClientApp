@@ -1,0 +1,8 @@
+# Either use_frameworks! or use_modular_headers! must be specified.
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'app-ios' do
+    pod 'app_mvp', :path => '../app-mvp'
+end

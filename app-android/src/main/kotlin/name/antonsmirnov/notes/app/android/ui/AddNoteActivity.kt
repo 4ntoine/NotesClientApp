@@ -9,16 +9,16 @@ import android.widget.Toast
 import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.controller.rest.AddNoteController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
-import name.antonsmirnov.notes.domain.Note
-import name.antonsmirnov.notes.presenter.addnote.Model
-import name.antonsmirnov.notes.presenter.addnote.Presenter
-import name.antonsmirnov.notes.presenter.addnote.PresenterImpl
-import name.antonsmirnov.notes.presenter.addnote.View
+import name.antonsmirnov.notes.presenter.Note
+import name.antonsmirnov.notes.presenter.addnote.AddNoteModel
+import name.antonsmirnov.notes.presenter.addnote.AddNotePresenter
+import name.antonsmirnov.notes.presenter.addnote.AddNotePresenterImpl
+import name.antonsmirnov.notes.presenter.addnote.AddNoteView
 import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
-class AddNoteActivity : AppCompatActivity(), View {
+class AddNoteActivity : AppCompatActivity(), AddNoteView {
 
-    override var presenter: Presenter? = null
+    override var presenter: AddNotePresenter? = null
 
     private lateinit var editTextTitle: EditText
     private lateinit var editTextBody: EditText
@@ -52,10 +52,10 @@ class AddNoteActivity : AppCompatActivity(), View {
 
     private fun initMvp() {
         if (lastCustomNonConfigurationInstance != null) {
-            presenter = lastCustomNonConfigurationInstance as Presenter
+            presenter = lastCustomNonConfigurationInstance as AddNotePresenter
         } else {
-            val model = Model(AddNoteController(RestApi.instance), Note("", null))
-            presenter = PresenterImpl(model, BackgroundThreadManager())
+            val model = AddNoteModel(AddNoteController(RestApi.instance), Note("", null))
+            presenter = AddNotePresenterImpl(model, BackgroundThreadManager())
         }
         presenter?.attachView(this)
     }
@@ -72,14 +72,14 @@ class AddNoteActivity : AppCompatActivity(), View {
         setControlVisibility(indicator, visible)
     }
 
-    override fun updateView(_model: Model) {
+    override fun updateView(_model: AddNoteModel) {
         val model = _model.stateCopy()
         runOnUiThread {
             when (model.state) {
-                is Model.State.Executing -> setIndicatorVisibility(true)
-                is Model.State.ExecutionError -> {
+                is AddNoteModel.State.Executing -> setIndicatorVisibility(true)
+                is AddNoteModel.State.ExecutionError -> {
                     setIndicatorVisibility(false)
-                    showError((model.state as Model.State.ExecutionError).error)
+                    showError((model.state as AddNoteModel.State.ExecutionError).error)
                 }
                 else -> {
                     setIndicatorVisibility(false)
@@ -97,12 +97,9 @@ class AddNoteActivity : AppCompatActivity(), View {
             .show()
     }
 
-    override fun updateModel(_model: Model) {
-        val model = _model.stateCopy()
-        runOnUiThread {
-            model.note.title = editTextTitle.text.toString()
-            model.note.body = if (editTextBody.text.isNotEmpty()) editTextBody.text.toString() else null
-        }
+    override fun updateModel(model: AddNoteModel) {
+        model.note.title = editTextTitle.text.toString()
+        model.note.body = if (editTextBody.text.isNotEmpty()) editTextBody.text.toString() else null
     }
 
     override fun showNotesList() = runOnUiThread {

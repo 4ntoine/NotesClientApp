@@ -16,17 +16,17 @@ import javafx.stage.Stage
 import name.antonsmirnov.notes.app.controller.rest.AddNoteController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
 import name.antonsmirnov.notes.presenter.Note
-import name.antonsmirnov.notes.presenter.addnote.Model
-import name.antonsmirnov.notes.presenter.addnote.Presenter
-import name.antonsmirnov.notes.presenter.addnote.PresenterImpl
-import name.antonsmirnov.notes.presenter.addnote.View
+import name.antonsmirnov.notes.presenter.addnote.AddNoteModel
+import name.antonsmirnov.notes.presenter.addnote.AddNotePresenter
+import name.antonsmirnov.notes.presenter.addnote.AddNotePresenterImpl
+import name.antonsmirnov.notes.presenter.addnote.AddNoteView
 import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
 class AddNoteView(
     val stage: Stage
-) : View {
+) : AddNoteView {
 
-    override var presenter: Presenter? = null
+    override var presenter: AddNotePresenter? = null
 
     private lateinit var tfTitle: TextField
     private lateinit var spBody: StackPane
@@ -81,28 +81,28 @@ class AddNoteView(
         piProgress.isVisible = visible
     }
 
-    override fun updateView(_model: Model) {
+    override fun updateView(_model: AddNoteModel) {
         val model = _model.stateCopy()
         Platform.runLater {
             when (model.state) {
-                is Model.State.Initial -> {
+                is AddNoteModel.State.Initial -> {
                     setIndicatorVisibility(false)
                 }
-                is Model.State.Executing -> {
+                is AddNoteModel.State.Executing -> {
                     setIndicatorVisibility(true)
                 }
-                is Model.State.ExecutionError -> {
+                is AddNoteModel.State.ExecutionError -> {
                     setIndicatorVisibility(false)
-                    showError((model.state as Model.State.ExecutionError).error.message)
+                    showError((model.state as AddNoteModel.State.ExecutionError).error.message)
                 }
-                is Model.State.Executed -> {
+                is AddNoteModel.State.Executed -> {
                     setIndicatorVisibility(false)
                 }
             }
         }
     }
 
-    override fun updateModel(model: Model) {
+    override fun updateModel(model: AddNoteModel) {
         model.note.title = tfTitle.text
         model.note.body = if (taBody.text.isNotEmpty()) taBody.text else null
     }
@@ -114,8 +114,8 @@ class AddNoteView(
 
     companion object {
         fun navigate(stage: Stage) {
-            val model = Model(AddNoteController(RestApi.instance), Note("", null))
-            val presenter = PresenterImpl(model, BackgroundThreadManager())
+            val model = AddNoteModel(AddNoteController(RestApi.instance), Note("", null))
+            val presenter = AddNotePresenterImpl(model, BackgroundThreadManager())
             val view = AddNoteView(stage)
             view.show()
 

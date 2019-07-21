@@ -6,10 +6,20 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    api "name.antonsmirnov.notes:app-api:$rootProject.server_module_version"
+    api "name.antonsmirnov.notes:app-api-jvm:$rootProject.server_module_version"
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+// All exceptions in Kotlin are not checked, but in Swift they are checked.
+// So we need @Throws annotation for iOS compatibility to generate swift signatures with `.. throws -> ..`
+// This requires @ExperimentalMultiplatform annotation in all methods with @Throws.
+// In order to prevent adding @ExperimentalMultiplatform every here and there we can use compiler option:
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += '-Xuse-experimental=kotlin.ExperimentalMultiplatform'
+    }
 }

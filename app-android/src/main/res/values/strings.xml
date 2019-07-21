@@ -9,6 +9,8 @@
 
     <string name="activity_addnote_title">Add note</string>
     <string name="activity_addnote_load_error">Failed to add the note: %s</string>
+    <string name="activity_addnote_title_hint">Title</string>
+    <string name="activity_addnote_body_hint">Body</string>
 
     <string name="activity_serverurl_host">Host</string>
     <string name="activity_serverurl_port">Port</string>

@@ -1,14 +1,60 @@
-apply plugin: 'idea'
-apply plugin: 'kotlin'
+plugins {
+    id 'idea'
+    id 'kotlin-multiplatform'
+    id('org.jetbrains.kotlin.native.cocoapods')
+}
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+kotlin {
+    targets {
+        jvm()
+        iosX64() // iOS simulator
+    }
 
-dependencies {
-    api "name.antonsmirnov.notes:app-api:$rootProject.server_module_version"
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+                api "name.antonsmirnov.notes:app-api-metadata:$rootProject.server_module_version"
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                api "name.antonsmirnov.notes:app-api-jvm:$rootProject.server_module_version"
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+            }
+        }
+        iosX64Main {
+            dependencies {
+                api "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
+            }
+        }
+    }
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    // All exceptions in Kotlin are not checked, but in Swift they are checked.
+    // So we need @Throws annotation for iOS compatibility to generate swift signatures with `.. throws -> ..`
+    // This requires @ExperimentalMultiplatform annotation in all methods with @Throws.
+    // In order to prevent adding @ExperimentalMultiplatform every here and there we can use compiler option:
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += '-Xuse-experimental=kotlin.ExperimentalMultiplatform'
+            }
+        }
+    }
+}
+
+version = "$rootProject.module_version"
+
+kotlin {
+    cocoapods {
+        summary = "App MVP of NotesClientApp"
+        homepage = "https://github.com/4ntoine/NotesClientApp"
+    }
 }

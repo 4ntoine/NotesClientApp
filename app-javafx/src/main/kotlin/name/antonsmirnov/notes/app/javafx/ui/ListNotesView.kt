@@ -21,17 +21,17 @@ import javafx.stage.Stage
 import name.antonsmirnov.notes.app.controller.rest.ListNotesController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
 import name.antonsmirnov.notes.presenter.Note
-import name.antonsmirnov.notes.presenter.listnotes.Model
-import name.antonsmirnov.notes.presenter.listnotes.Presenter
-import name.antonsmirnov.notes.presenter.listnotes.PresenterImpl
-import name.antonsmirnov.notes.presenter.listnotes.View
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesModel
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenter
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenterImpl
+import name.antonsmirnov.notes.presenter.listnotes.ListNotesView
 import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
 class ListNotesView(
     val stage: Stage
-) : View {
+) : ListNotesView {
 
-    override var presenter: Presenter? = null
+    override var presenter: ListNotesPresenter? = null
 
     private lateinit var tbMain: ToolBar
     private lateinit var butAddNote: Button
@@ -125,27 +125,27 @@ class ListNotesView(
         piProgress.isVisible = visible
     }
 
-    override fun updateView(_model: Model) {
+    override fun updateView(_model: ListNotesModel) {
         val model = _model.stateCopy()
         Platform.runLater {
             when (model.state) {
-                is Model.State.Initial -> {
+                is ListNotesModel.State.Initial -> {
                     notes.clear()
                     setIndicatorVisibility(false)
                 }
-                is Model.State.Loading -> {
+                is ListNotesModel.State.Loading -> {
                     notes.clear()
                     setIndicatorVisibility(true)
                 }
-                is Model.State.Loaded -> {
+                is ListNotesModel.State.Loaded -> {
                     notes.clear()
-                    notes.addAll((model.state as Model.State.Loaded).notes)
+                    notes.addAll((model.state as ListNotesModel.State.Loaded).notes)
                     setIndicatorVisibility(false)
                 }
-                is Model.State.LoadError -> {
+                is ListNotesModel.State.LoadError -> {
                     notes.clear()
                     setIndicatorVisibility(false)
-                    showError((model.state as Model.State.LoadError).error.message)
+                    showError((model.state as ListNotesModel.State.LoadError).error.message)
                 }
             }
         }
@@ -153,8 +153,8 @@ class ListNotesView(
 
     companion object {
         fun navigate(stage: Stage) {
-            val model = Model(ListNotesController(RestApi.instance))
-            val presenter = PresenterImpl(model, BackgroundThreadManager())
+            val model = ListNotesModel(ListNotesController(RestApi.instance))
+            val presenter = ListNotesPresenterImpl(model, BackgroundThreadManager())
             val view = ListNotesView(stage)
             view.show()
 
