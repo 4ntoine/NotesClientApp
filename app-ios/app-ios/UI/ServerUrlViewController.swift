@@ -52,7 +52,8 @@ class ServerUrlViewController: UIViewController, ServerUrlView {
         (presenter as! ServerUrlPresenter).onViewChanged()
     }
     
-    override func didReceiveMemoryWarning() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         (presenter as! ServerUrlPresenter).onViewDetached()
     }
     

@@ -52,7 +52,8 @@ class ListNotesViewController: UITableViewController, ListNotesView {
         (presenter as! ListNotesPresenter).onLoadRequest()
     }
     
-    override func didReceiveMemoryWarning() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         (presenter as! ListNotesPresenter).onViewDetached()
     }
     

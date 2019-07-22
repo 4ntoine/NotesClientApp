@@ -45,7 +45,8 @@ class AddNoteViewController: UIViewController, AddNoteView {
         (presenter as! AddNotePresenter).onViewChanged()
     }
     
-    override func didReceiveMemoryWarning() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         (presenter as! AddNotePresenter).onViewDetached()
     }
     
