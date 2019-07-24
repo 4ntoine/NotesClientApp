@@ -25,7 +25,7 @@ class AddNoteViewController: UIViewController, AddNoteView {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let useCase = appDelegate.rest!
         
-        let note = DomainNote(title: "", body: nil)
+        let note = Note(title: "", body: nil)
         let model = AddNoteModel(useCase: useCase, note: note)
         // TODO: use BackgroundThreadManager (currently crashes for unknown reason)
         let presenter = AddNotePresenterImpl(model: model, threadManager: BlockingThreadManager())

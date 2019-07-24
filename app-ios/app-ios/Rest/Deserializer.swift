@@ -10,14 +10,14 @@ import Foundation
 import app_mvp
 
 protocol Deserializer {
-    func deserializeListNotes(data: Data) throws -> App_apiListNotesResponse
-    func deserializeAddNote(data: Data) throws -> App_apiAddNoteResponse
+    func deserializeListNotes(data: Data) throws -> ListNotesResponse
+    func deserializeAddNote(data: Data) throws -> AddNoteResponse
 }
 
 class JsonDeserializer : Deserializer {
     
-    func deserializeListNotes(data: Data) throws -> App_apiListNotesResponse {
-        var notes = [DomainNote]()
+    func deserializeListNotes(data: Data) throws -> ListNotesResponse {
+        var notes = [ListNotesNote]()
         do {
             let jsonWithObjectRoot = try JSONSerialization.jsonObject(with: data,
                                                                       options: JSONSerialization.ReadingOptions())
@@ -28,7 +28,7 @@ class JsonDeserializer : Deserializer {
                         guard let id = noteObject["id"] as? String else { throw RestApiError.InvalidJson } // required field
                         guard let title = noteObject["title"] as? String else { throw RestApiError.InvalidJson } // required field
                         let body = noteObject["body"] as? String // optional field
-                        let note = DomainNote(id: id, title: title, body: body)
+                        let note = ListNotesNote(id: id, title: title, body: body)
                         notes.append(note)
                     }
                 } else {
@@ -41,16 +41,16 @@ class JsonDeserializer : Deserializer {
             throw RestApiError.InvalidJson
         }
         
-        return App_apiListNotesResponse.init(notes: notes)
+        return ListNotesResponse.init(notes: notes)
     }
     
-    func deserializeAddNote(data: Data) throws -> App_apiAddNoteResponse {
+    func deserializeAddNote(data: Data) throws -> AddNoteResponse {
         do {
             let jsonWithObjectRoot = try JSONSerialization.jsonObject(with: data,
                                                                       options: JSONSerialization.ReadingOptions())
             if let rootObject = jsonWithObjectRoot as? [String: Any] {
                 if let id = rootObject["id"] as? String {
-                    return App_apiAddNoteResponse.init(id: id)
+                    return AddNoteResponse.init(id: id)
                 } else {
                     throw RestApiError.InvalidJson
                 }

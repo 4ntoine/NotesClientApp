@@ -200,8 +200,6 @@ Make sure you can see added note:
 
 ![Notes list](images/app/app-ios/4_listnotes.png?raw=true)
 
-Note: currently there is Kotlin/Native bug, so note `id` is displayed instead of `body`.
-
 # Frameworks and tools
 
 * [Kotlin](https://kotlinlang.org/) programming language

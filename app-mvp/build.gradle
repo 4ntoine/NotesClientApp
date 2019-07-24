@@ -57,4 +57,11 @@ kotlin {
         summary = "App MVP of NotesClientApp"
         homepage = "https://github.com/4ntoine/NotesClientApp"
     }
+
+    targets.iosX64.binaries
+        .findAll { it instanceof org.jetbrains.kotlin.gradle.plugin.mpp.Framework }
+        .every {
+            it.export "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
+            it.transitiveExport = true
+        }
 }

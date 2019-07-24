@@ -83,7 +83,7 @@ class ListNotesViewController: UITableViewController, ListNotesView {
     
     var presenter: Any?
     
-    var notes = [DomainNote]()
+    var notes = [Note]()
     
     private func showError(message: String) {
         let alert = UIAlertController(title: "List notes error",
@@ -102,7 +102,7 @@ class ListNotesViewController: UITableViewController, ListNotesView {
             case is ListNotesModel.StateLoaded:
                 self.notes.removeAll()
                 
-                for note in (_model.state as! ListNotesModel.StateLoaded).notes as! [DomainNote] {
+                for note in (_model.state as! ListNotesModel.StateLoaded).notes as! [Note] {
                     self.notes.append(note)
                 }
                 self.tableView.reloadData()

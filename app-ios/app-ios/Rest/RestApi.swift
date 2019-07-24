@@ -9,7 +9,7 @@
 import Foundation
 import app_mvp
 
-protocol RestApi : App_apiListNotes, App_apiAddNote {
+protocol RestApi : ListNotes, AddNote {
     
 }
 
@@ -55,13 +55,13 @@ class RestImpl : RestApi {
         return data!
     }
     
-    func execute() throws -> App_apiListNotesResponse {
+    func execute() throws -> ListNotesResponse {
         let url = try getUrl(relativeUrl: "/list")
         let responseData = try sendRequest(url: url)
         return try deserializer.deserializeListNotes(data: responseData)
     }
     
-    func execute(request: App_apiAddNoteRequest) throws -> App_apiAddNoteResponse {
+    func execute(request: AddNoteRequest) throws -> AddNoteResponse {
         var urlWithParams = "/add?title=\(request.title)"
         if let body = request.body {
             urlWithParams += "&body=\(body)"
