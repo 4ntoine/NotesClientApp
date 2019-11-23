@@ -56,13 +56,13 @@ class RestImpl : RestApi {
     }
     
     func execute() throws -> ListNotesResponse {
-        let url = try getUrl(relativeUrl: "/list")
+        let url = try getUrl(relativeUrl: "/api/list")
         let responseData = try sendRequest(url: url)
         return try deserializer.deserializeListNotes(data: responseData)
     }
     
     func execute(request: AddNoteRequest) throws -> AddNoteResponse {
-        var urlWithParams = "/add?title=\(request.title)"
+        var urlWithParams = "/api/add?title=\(request.title)"
         if let body = request.body {
             urlWithParams += "&body=\(body)"
         }

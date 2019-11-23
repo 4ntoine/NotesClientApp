@@ -21,23 +21,23 @@ class RestTests: XCTestCase {
         }
     }
 
-    // navigate to "http://localhost:8080/add?title=hello&body=world" once(!) before the test
-    // use "http://localhost:8080/list" to make sure
+    // navigate to "http://localhost:8080/api/add?title=hello&body=world" once(!) before the test
+    // use "http://localhost:8080/api/list" to make sure
     func testListNotes() throws {
         let response = try impl.execute()
         
         XCTAssertNotNil(response)
         XCTAssertNotNil(response.notes)
-        let notesArray = response.notes as! [DomainNote]
+        let notesArray = response.notes as! [ListNotesNote]
         XCTAssertEqual(1, notesArray.count)
-        let note = notesArray[0] as DomainNote
+        let note = notesArray[0] as ListNotesNote
         XCTAssertEqual("hello", note.title)
         XCTAssertEqual("world", note.body)
     }
     
-    // use "http://localhost:8080/list" to make sure it's added
+    // use "http://localhost:8080/api/list" to make sure it's added
     func testAddNote() throws {
-        let request = App_apiAddNoteRequest.init(title: "hello", body: "world")
+        let request = AddNoteRequest.init(title: "hello", body: "world")
         let response = try impl.execute(request: request)
         
         XCTAssertNotNil(response)

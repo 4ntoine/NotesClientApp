@@ -19,7 +19,7 @@ class DeserializerTests: XCTestCase {
         let response = try deserializer.deserializeListNotes(data: Data(json.utf8))
         XCTAssertNotNil(response)
         XCTAssertNotNil(response.notes)
-        let notes = response.notes as? [DomainNote]
+        let notes = response.notes as? [ListNotesNote]
         XCTAssertEqual(0, notes!.count)
     }
     
@@ -28,7 +28,7 @@ class DeserializerTests: XCTestCase {
         let response = try deserializer.deserializeListNotes(data: Data(json.utf8))
         XCTAssertNotNil(response)
         XCTAssertNotNil(response.notes)
-        let notes = response.notes as? [DomainNote]
+        let notes = response.notes as? [ListNotesNote]
         XCTAssertEqual(1, notes!.count)
         XCTAssertEqual("0e5fcb6f-54dd-4c6c-af24-b7c8b40bf71b", notes!.first!.id)
         XCTAssertEqual("hello", notes!.first!.title)
@@ -40,7 +40,7 @@ class DeserializerTests: XCTestCase {
         let response = try deserializer.deserializeListNotes(data: Data(json.utf8))
         XCTAssertNotNil(response)
         XCTAssertNotNil(response.notes)
-        let notes = response.notes as? [DomainNote]
+        let notes = response.notes as? [ListNotesNote]
         XCTAssertEqual(1, notes!.count)
         XCTAssertEqual("0e5fcb6f-54dd-4c6c-af24-b7c8b40bf71b", notes!.first!.id)
         XCTAssertEqual("hello", notes!.first!.title)
@@ -52,7 +52,7 @@ class DeserializerTests: XCTestCase {
         let response = try deserializer.deserializeListNotes(data: Data(json.utf8))
         XCTAssertNotNil(response)
         XCTAssertNotNil(response.notes)
-        let notes = response.notes as? [DomainNote]
+        let notes = response.notes as? [ListNotesNote]
         XCTAssertEqual(2, notes!.count)
         XCTAssertEqual("0e5fcb6f-54dd-4c6c-af24-b7c8b40bf71b", notes![0].id)
         XCTAssertEqual("title1", notes![0].title)

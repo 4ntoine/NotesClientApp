@@ -7,10 +7,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestApi {
-    @GET("list")
+    @GET("/api/list")
     fun listNotes(): Call<ListNotes.Response>
 
-    @GET("add")
+    @GET("/api/add")
     fun addNote(@Query("title") title: String, @Query("body") body:String?): Call<AddNote.Response>
 
     companion object {
