@@ -50,3 +50,6 @@ xcuserdata/
 #
 Pods/
 Podfile.lock
+
+# Generated Dart files  
+**/*.g.dart

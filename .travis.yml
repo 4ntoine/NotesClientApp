@@ -1,9 +1,10 @@
 language: android
 dist: trusty
 env:
-  global:
-    - QEMU_AUDIO_DRV=none
-    - ADB_INSTALL_TIMEOUT=5 # minutes
+# Android emulator
+#  global:
+#    - QEMU_AUDIO_DRV=none
+#    - ADB_INSTALL_TIMEOUT=5 # minutes
 android:
   components:
     - build-tools-28.0.3
@@ -18,19 +19,33 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/.pub-cache/
 before_script:
+# Server app (modules used in client apps)  
   - git clone https://github.com/4ntoine/NotesServerApp.git
   - cd NotesServerApp
   - ./gradlew clean assemble publishToMavenLocal
   - cd ..
+# Android app (prerequisites)
 # - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a -c 100M
 # - emulator -avd test -no-window &
 # - android-wait-for-emulator
 # - adb shell input keyevent 82 &
+# Flutter app (prerequisites)
+  - git clone https://github.com/flutter/flutter.git flutter-dist
+  - ./flutter-dist/bin/flutter doctor
 script:
   - ./gradlew clean test
   - ./gradlew clean assemble podspec
+# Android app
   - ./gradlew clean app-android:assemble
 # commented as it's unreliable on Travis due to "Waited for the root of the view hierarchy to have window focus and not request layout for 10 seconds .." error
 # - ./gradlew clean app-android:connectedAndroidTest
+# JavaFX app
   - ./gradlew clean app-javafx:shadowJar
+# Flutter app
+  - cd ./app-flutter
+  - ../flutter-dist/bin/flutter pub get
+  - ../flutter-dist/bin/flutter packages pub run build_runner build
+  - ../flutter-dist/bin/flutter test
+  - ../flutter-dist/bin/flutter build apk --target-platform android-arm

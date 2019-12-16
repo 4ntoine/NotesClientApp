@@ -20,6 +20,10 @@ To create podspec files run in root project directory:
 
 `app-ios` is an iOS app.
 
+### Mobile - Flutter (Android/iOS)
+
+`app-flutter` is an Android/iOS Flutter app.
+
 ### Desktop - JavaFX
 
 `app-javafx` is a desktop JavaFX app.
@@ -31,7 +35,7 @@ Applications interact over HTTP REST. Make sure you run it before running Androi
 
 # MVP
 
-Both apps use MVP design pattern (see `app-mvp` module):
+All the apps (except Flutter) use MVP design pattern (see `app-mvp` module):
 
 ![MVP](images/arch/mvp.png?raw=true)
 
@@ -79,6 +83,18 @@ Install `app-mvp` pod in `app-ios` directory:
 
     pod install
 
+## Flutter app
+
+### Android app
+
+In `app-flutter` directory:
+
+```
+flutter pub get
+flutter packages pub run build_runner build
+flutter build apk --target-platform android-arm
+```
+
 # Testing
 
 ## Unit testing
@@ -112,6 +128,12 @@ Make sure all the tests passed:
     12:12:53 V/InstrumentationResultParser: INSTRUMENTATION_CODE: -1
     12:12:53 V/InstrumentationResultParser: 
     12:12:53 I/XmlResultReporter: XML test result file generated at /Users/asmirnov/Documents/dev/src/Notes/NotesClientApp/app-android/build/outputs/androidTest-results/connected/TEST-Nexus_5X_API_25_-_dev(AVD) - 7.1.1-app-android-.xml. Total tests 4, passed 4, 
+
+### Flutter app
+
+In `app-flutter` directory:
+
+    flutter test
 
 ## Manual testing
 
@@ -200,6 +222,20 @@ Make sure you can see added note:
 
 ![Notes list](images/app/app-ios/4_listnotes.png?raw=true)
 
+### Flutter app
+
+#### Android
+
+![Server host and port](images/app/app-flutter/a1_connection.png?raw=true)
+![Add note](images/app/app-flutter/a2_addnote_input.png?raw=true)
+![Notes list](images/app/app-flutter/a3_listnotes.png?raw=true)
+
+#### iOS
+
+![Server host and port](images/app/app-flutter/i1_connection.png?raw=true)
+![Add note](images/app/app-flutter/i2_addnote_input.png?raw=true)
+![Notes list](images/app/app-flutter/i3_listnotes.png?raw=true)
+
 # Frameworks and tools
 
 * [Kotlin](https://kotlinlang.org/) programming language
@@ -214,6 +250,8 @@ Make sure you can see added note:
 * [Mockito](https://site.mockito.org/) and [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin) for unit-testing
 * [Espresso](https://developer.android.com/training/testing/espresso) for Android UI testing
 * [Xcode tests](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/01-introduction.html) for iOS testing
+* [Dart](https://dart.dev/) programming language
+* [Flutter](https://flutter.dev) UI toolkit
 
 # Feedback
 
