@@ -79,8 +79,8 @@ class ServerAddNoteInteractor extends AddNoteUseCase {
   Future<AddNoteResponse> addNote(AddNoteRequest request) async {
     final client = _client ?? http.Client();
     final queryParams = {
-      "title" : request.title,
-      "body" : request.body
+      'title' : request.title,
+      'body' : request.body
     };
     final uri = Uri(
       scheme: _uri.scheme,
@@ -93,7 +93,7 @@ class ServerAddNoteInteractor extends AddNoteUseCase {
       final addResponse = AddNoteResponseJson.fromJson(json.decode(response.body));
       return AddNoteResponse(addResponse.id);
     } else {
-      throw Exception("Unexpected HTTP status code: ${response.statusCode}");
+      throw Exception('Unexpected HTTP status code: ${response.statusCode}');
     }
   }
 }

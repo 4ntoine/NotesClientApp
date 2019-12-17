@@ -22,7 +22,7 @@ void main() {
 
     expect(response.id, equals(id));
 
-    final expectedUrl = "$url?title=$title&body=$body";
+    final expectedUrl = '$url?title=$title&body=$body';
     expect(verify(client.get(captureAny)).captured.single.toString(), expectedUrl);
   });
 

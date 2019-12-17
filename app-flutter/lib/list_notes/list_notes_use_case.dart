@@ -82,7 +82,7 @@ class ServerListNotesInteractor extends ListNotesUseCase {
       final notes = ListNotesResponseJson.fromJson(json.decode(response.body));
       return ListNotesResponse(notes.notes.map((it) => Note(it.id, it.title, it.body)).toList());
     } else {
-      throw Exception("Unexpected HTTP status code: ${response.statusCode}");
+      throw Exception('Unexpected HTTP status code: ${response.statusCode}');
     }
   }
 }
