@@ -20,30 +20,6 @@ class ListNotesResponse {
   ListNotesResponse(this.notes);
 }
 
-// wrapper that waits for few seconds and then forward call to wrapped useCase
-class WaitingListNotesInteractorWrapper extends ListNotesUseCase {
-  final Duration _duration;
-  final ListNotesUseCase _useCase;
-  WaitingListNotesInteractorWrapper(this._duration, this._useCase);
-
-  @override
-  Future<ListNotesResponse> listNotes() {
-    return Future.delayed(_duration, () => _useCase.listNotes());
-  }
-}
-
-// wrapper that sets timeout
-class TimeoutListNotesInteractorWrapper extends ListNotesUseCase {
-  final Duration _duration;
-  final ListNotesUseCase _useCase;
-  TimeoutListNotesInteractorWrapper(this._duration, this._useCase);
-
-  @override
-  Future<ListNotesResponse> listNotes() {
-    return _useCase.listNotes().timeout(_duration);
-  }
-}
-
 // call `flutter packages pub run build_runner build` to generate .g.dart files
 
 @JsonSerializable(createToJson: false)

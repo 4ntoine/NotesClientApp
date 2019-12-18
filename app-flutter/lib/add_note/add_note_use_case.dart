@@ -23,30 +23,6 @@ class AddNoteRequest {
   AddNoteRequest(this.title, this.body);
 }
 
-// wrapper that waits for few seconds and then forward call to wrapped useCase
-class WaitingAddNoteInteractorWrapper extends AddNoteUseCase {
-  final Duration _duration;
-  final AddNoteUseCase _useCase;
-  WaitingAddNoteInteractorWrapper(this._duration, this._useCase);
-
-  @override
-  Future<AddNoteResponse> addNote(AddNoteRequest request) {
-    return Future.delayed(_duration, () => _useCase.addNote(request));
-  }
-}
-
-// wrapper that sets timeout
-class TimeoutAddNoteInteractorWrapper extends AddNoteUseCase {
-  final Duration _duration;
-  final AddNoteUseCase _useCase;
-  TimeoutAddNoteInteractorWrapper(this._duration, this._useCase);
-
-  @override
-  Future<AddNoteResponse> addNote(AddNoteRequest request) {
-    return _useCase.addNote(request).timeout(_duration);
-  }
-}
-
 // call `flutter packages pub run build_runner build` to generate .g.dart files
 
 @JsonSerializable(createFactory: false)

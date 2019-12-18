@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'test_http_client.dart';
+import 'http/mock.dart';
 
 final url = Uri.parse('http://127.0.0.1:8080/api/list');
 
