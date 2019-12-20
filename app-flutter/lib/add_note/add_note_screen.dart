@@ -28,8 +28,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     setState(() {
       _state = AddNoteLoadingState();
       final request = AddNoteRequest(
-        _titleController.text.trim(),
-        _bodyController.text.trim());
+          _titleController.text.trim(), _bodyController.text.trim());
       widget._useCase.addNote(request).then((response) {
         setState(() {
           final id = response.id;
@@ -48,61 +47,67 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     final double interMargin = Platform.isAndroid ? 0 : 10;
     return _state != null
         ? _state.getWidget()
-        : Column(children: <Widget> [
+        : Column(children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Platform.isAndroid // title
-              ? TextField(
-                  decoration: new InputDecoration(hintText: 'Title'),
-                  maxLines: 1,
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  controller: _titleController)
-              : CupertinoTextField(
-                  maxLines: 1,
-                  autofocus: true,
-                  textInputAction: TextInputAction.next,
-                  controller: _titleController
-              )),
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Platform.isAndroid // title
+                    ? TextField(
+                        decoration: new InputDecoration(hintText: 'Title'),
+                        maxLines: 1,
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                        controller: _titleController)
+                    : CupertinoTextField(
+                        maxLines: 1,
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                        controller: _titleController)),
             Padding(
-              padding: EdgeInsets.only(left: 10, top: interMargin, right: 10),
-              child: Platform.isAndroid // body
-                ? TextField(
-                    decoration: new InputDecoration(hintText: 'Body'),
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    controller: _bodyController)
-                : CupertinoTextField(
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    controller: _bodyController)),
+                padding: EdgeInsets.only(left: 10, top: interMargin, right: 10),
+                child: Platform.isAndroid // body
+                    ? TextField(
+                        decoration: new InputDecoration(hintText: 'Body'),
+                        keyboardType: TextInputType.number,
+                        maxLines: 1,
+                        controller: _bodyController)
+                    : CupertinoTextField(
+                        keyboardType: TextInputType.number,
+                        maxLines: 1,
+                        controller: _bodyController)),
             Platform.isAndroid
-              ? RaisedButton(child: Text('OK'), onPressed: () { _onInputFinished(); })
-              : CupertinoButton(child: Text('OK'), onPressed: () { _onInputFinished(); })
+                ? RaisedButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      _onInputFinished();
+                    })
+                : CupertinoButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      _onInputFinished();
+                    })
           ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final double topMargin = Platform.isAndroid ? 0 : 105; // TODO: (why margin on iOS?)
+    final double topMargin =
+        Platform.isAndroid ? 0 : 105; // TODO: (why margin on iOS?)
     return Platform.isAndroid
-      ? Scaffold(
-          appBar: AppBar(title: Text('Add note')),
-          body: _getWidget())
-      : CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(middle: Text('Add note')),
-          child: Padding(
-            padding: EdgeInsets.only(top: topMargin),
-            child: _getWidget()));
+        ? Scaffold(appBar: AppBar(title: Text('Add note')), body: _getWidget())
+        : CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(middle: Text('Add note')),
+            child: Padding(
+                padding: EdgeInsets.only(top: topMargin), child: _getWidget()));
   }
 }
 
 class AddNoteScreen extends StatefulWidget {
   static const route = '/addNote';
-  static navigateTo(BuildContext context, [bool cleanStack = true]) =>
-    Platform.isAndroid
+  static navigateTo(BuildContext context, [bool cleanStack = true]) => Platform
+          .isAndroid
       ? Navigator.pushNamedAndRemoveUntil(context, route, (_) => !cleanStack)
-      : Navigator.push(context, CupertinoPageRoute(builder: MyApp.addNoteScreenBuilder));
+      : Navigator.push(
+          context, CupertinoPageRoute(builder: MyApp.addNoteScreenBuilder));
 
   final AddNoteUseCase _useCase;
   final AddNoteCallback _callback;

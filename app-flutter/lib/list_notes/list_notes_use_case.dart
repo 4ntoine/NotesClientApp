@@ -30,8 +30,8 @@ class ListNoteResponseJson {
   final String body;
   ListNoteResponseJson(this.id, this.title, this.body);
 
-  factory ListNoteResponseJson.fromJson(Map<String, dynamic> json)
-    => _$ListNoteResponseJsonFromJson(json);
+  factory ListNoteResponseJson.fromJson(Map<String, dynamic> json) =>
+      _$ListNoteResponseJsonFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -40,8 +40,8 @@ class ListNotesResponseJson {
   final List<ListNoteResponseJson> notes;
   ListNotesResponseJson(this.notes);
 
-  factory ListNotesResponseJson.fromJson(Map<String, dynamic> json)
-    => _$ListNotesResponseJsonFromJson(json);
+  factory ListNotesResponseJson.fromJson(Map<String, dynamic> json) =>
+      _$ListNotesResponseJsonFromJson(json);
 }
 
 // impl that interacts with server over http (json)
@@ -56,7 +56,8 @@ class ServerListNotesInteractor extends ListNotesUseCase {
     final response = await client.get(_uri);
     if (response.statusCode == 200) {
       final notes = ListNotesResponseJson.fromJson(json.decode(response.body));
-      return ListNotesResponse(notes.notes.map((it) => Note(it.id, it.title, it.body)).toList());
+      return ListNotesResponse(
+          notes.notes.map((it) => Note(it.id, it.title, it.body)).toList());
     } else {
       throw Exception('Unexpected HTTP status code: ${response.statusCode}');
     }

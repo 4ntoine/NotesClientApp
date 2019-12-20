@@ -36,11 +36,8 @@ class AddNoteLoadErrorState extends AddNoteLoadState {
   AddNoteLoadErrorState(this._error);
 
   @override
-  Widget getWidget() => Center(child: Text(
-    _error.toString(),
-    style: TextStyle(
-      fontSize: 18.0,
-      color: Colors.red,
-      fontWeight: FontWeight.bold)
-  ));
+  Widget getWidget() => Center(
+      child: Text(_error.toString(),
+          style: TextStyle(
+              fontSize: 18.0, color: Colors.red, fontWeight: FontWeight.bold)));
 }

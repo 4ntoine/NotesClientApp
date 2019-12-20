@@ -33,31 +33,31 @@ class MyApp extends StatelessWidget {
     return _getMethodUri(context, '/add');
   }
 
-  static final _httpClient =
-    TimeoutWrapper(
+  static final _httpClient = TimeoutWrapper(
       Duration(seconds: 3),
-      DelayWrapper( // help to better visualize it's long-running operation
-        Duration(seconds: 1),
-        http.Client()));
+      DelayWrapper(
+          // help to better visualize it's long-running operation
+          Duration(seconds: 1),
+          http.Client()));
 
-  static final connectionScreenBuilder = (BuildContext context) =>
-      ConnectionScreen((Connection connection) {
-        // URL/port input finished, remember url/port for all the other screens
-        // and navigating to list screen
-        ConnectionWidget.of(context).holder.connection = connection;
-        ListNotesScreen.navigateTo(context);
-      });
+  static final connectionScreenBuilder =
+      (BuildContext context) => ConnectionScreen((Connection connection) {
+            // URL/port input finished, remember url/port for all the other screens
+            // and navigating to list screen
+            ConnectionWidget.of(context).holder.connection = connection;
+            ListNotesScreen.navigateTo(context);
+          });
 
   static final addNoteScreenBuilder = (BuildContext context) => AddNoteScreen(
-      ServerAddNoteInteractor(_getAddNoteUri(context), _httpClient),
-      (_) {
+          ServerAddNoteInteractor(_getAddNoteUri(context), _httpClient), (_) {
         // "Add Note" successful, navigating to list screen
         ListNotesScreen.navigateTo(context);
       });
 
-  static final listNotesScreenBuilder = (BuildContext context) => ListNotesScreen(
-      ServerListNotesInteractor(_getListNotesUri(context), _httpClient),
-      () {
+  static final listNotesScreenBuilder = (BuildContext context) =>
+      ListNotesScreen(
+          ServerListNotesInteractor(_getListNotesUri(context), _httpClient),
+          () {
         // "Add Note" tapped, navigating to according screen
         AddNoteScreen.navigateTo(context, false);
       });
@@ -68,19 +68,20 @@ class MyApp extends StatelessWidget {
     var routes = {
       ConnectionScreen.route: connectionScreenBuilder,
       ListNotesScreen.route: listNotesScreenBuilder,
-      AddNoteScreen.route: addNoteScreenBuilder};
-    return ConnectionWidget(child: Platform.isAndroid
-      ? MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Notes',
-          theme: ThemeData(primarySwatch: Colors.blue),
-          initialRoute: ConnectionScreen.route,
-          routes: routes)
-      : CupertinoApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Notes',
-          initialRoute: ConnectionScreen.route,
-          routes: routes
-    ));
+      AddNoteScreen.route: addNoteScreenBuilder
+    };
+    return ConnectionWidget(
+        child: Platform.isAndroid
+            ? MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Notes',
+                theme: ThemeData(primarySwatch: Colors.blue),
+                initialRoute: ConnectionScreen.route,
+                routes: routes)
+            : CupertinoApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Notes',
+                initialRoute: ConnectionScreen.route,
+                routes: routes));
   }
 }

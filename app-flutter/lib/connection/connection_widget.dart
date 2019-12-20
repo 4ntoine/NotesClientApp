@@ -18,5 +18,5 @@ class ConnectionWidget extends InheritedWidget {
   }
 
   static ConnectionWidget of(BuildContext context) =>
-    context.dependOnInheritedWidgetOfExactType<ConnectionWidget>();
+      context.dependOnInheritedWidgetOfExactType<ConnectionWidget>();
 }

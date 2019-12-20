@@ -13,9 +13,7 @@ class TimeoutWrapper implements http.Client {
 
   @override
   Future<Response> get(url, {Map<String, String> headers}) {
-    return _client
-        .get(url, headers: headers)
-        .timeout(_timeout);
+    return _client.get(url, headers: headers).timeout(_timeout);
   }
 
   @override
@@ -25,48 +23,43 @@ class TimeoutWrapper implements http.Client {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) {
-    return _client
-        .send(request)
-        .timeout(_timeout);
+    return _client.send(request).timeout(_timeout);
   }
 
   @override
   Future<Uint8List> readBytes(url, {Map<String, String> headers}) {
-    return _client
-        .readBytes(url, headers: headers)
-        .timeout(_timeout);
+    return _client.readBytes(url, headers: headers).timeout(_timeout);
   }
 
   @override
   Future<String> read(url, {Map<String, String> headers}) {
-    return _client
-        .read(url, headers: headers)
-        .timeout(_timeout);
+    return _client.read(url, headers: headers).timeout(_timeout);
   }
 
   @override
   Future<Response> delete(url, {Map<String, String> headers}) {
-    return _client
-        .delete(url, headers: headers)
-        .timeout(_timeout);
+    return _client.delete(url, headers: headers).timeout(_timeout);
   }
 
   @override
-  Future<Response> patch(url, {Map<String, String> headers, body, Encoding encoding}) {
+  Future<Response> patch(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
     return _client
         .patch(url, headers: headers, body: body, encoding: encoding)
         .timeout(_timeout);
   }
 
   @override
-  Future<Response> put(url, {Map<String, String> headers, body, Encoding encoding}) {
+  Future<Response> put(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
     return _client
         .put(url, headers: headers, body: body, encoding: encoding)
         .timeout(_timeout);
   }
 
   @override
-  Future<Response> post(url, {Map<String, String> headers, body, Encoding encoding}) {
+  Future<Response> post(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
     return _client
         .post(url, headers: headers, body: body, encoding: encoding)
         .timeout(_timeout);
@@ -74,8 +67,6 @@ class TimeoutWrapper implements http.Client {
 
   @override
   Future<Response> head(url, {Map<String, String> headers}) {
-    return _client
-        .head(url, headers: headers)
-        .timeout(_timeout);
+    return _client.head(url, headers: headers).timeout(_timeout);
   }
 }

@@ -31,8 +31,7 @@ class AddNoteRequestJson {
   final String id;
   AddNoteRequestJson(this.id);
 
-  Map<String, dynamic> toJson()
-    => _$AddNoteRequestJsonToJson(this);
+  Map<String, dynamic> toJson() => _$AddNoteRequestJsonToJson(this);
 }
 
 @JsonSerializable(createToJson: false)
@@ -41,8 +40,8 @@ class AddNoteResponseJson {
   final String id;
   AddNoteResponseJson(this.id);
 
-  factory AddNoteResponseJson.fromJson(Map<String, dynamic> json)
-    => _$AddNoteResponseJsonFromJson(json);
+  factory AddNoteResponseJson.fromJson(Map<String, dynamic> json) =>
+      _$AddNoteResponseJsonFromJson(json);
 }
 
 // impl that interacts with server over http (json)
@@ -54,19 +53,17 @@ class ServerAddNoteInteractor extends AddNoteUseCase {
   @override
   Future<AddNoteResponse> addNote(AddNoteRequest request) async {
     final client = _client ?? http.Client();
-    final queryParams = {
-      'title' : request.title,
-      'body' : request.body
-    };
+    final queryParams = {'title': request.title, 'body': request.body};
     final uri = Uri(
-      scheme: _uri.scheme,
-      host: _uri.host,
-      port: _uri.port,
-      path: _uri.path,
-      queryParameters: queryParams);
+        scheme: _uri.scheme,
+        host: _uri.host,
+        port: _uri.port,
+        path: _uri.path,
+        queryParameters: queryParams);
     final response = await client.get(uri);
     if (response.statusCode == 200) {
-      final addResponse = AddNoteResponseJson.fromJson(json.decode(response.body));
+      final addResponse =
+          AddNoteResponseJson.fromJson(json.decode(response.body));
       return AddNoteResponse(addResponse.id);
     } else {
       throw Exception('Unexpected HTTP status code: ${response.statusCode}');

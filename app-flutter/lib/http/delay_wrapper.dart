@@ -13,8 +13,7 @@ class DelayWrapper implements http.Client {
 
   @override
   Future<Response> get(url, {Map<String, String> headers}) {
-    return Future.delayed(_delay,
-            () => _client.get(url, headers: headers));
+    return Future.delayed(_delay, () => _client.get(url, headers: headers));
   }
 
   @override
@@ -24,49 +23,54 @@ class DelayWrapper implements http.Client {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) {
-    return Future.delayed(_delay,
-            () => _client.send(request));
+    return Future.delayed(_delay, () => _client.send(request));
   }
 
   @override
   Future<Uint8List> readBytes(url, {Map<String, String> headers}) {
-    return Future.delayed(_delay,
-            () => _client.readBytes(url, headers: headers));
+    return Future.delayed(
+        _delay, () => _client.readBytes(url, headers: headers));
   }
 
   @override
   Future<String> read(url, {Map<String, String> headers}) {
-    return Future.delayed(_delay,
-            () => _client.read(url, headers: headers));
+    return Future.delayed(_delay, () => _client.read(url, headers: headers));
   }
 
   @override
   Future<Response> delete(url, {Map<String, String> headers}) {
-    return Future.delayed(_delay,
-            () => _client.delete(url, headers: headers));
+    return Future.delayed(_delay, () => _client.delete(url, headers: headers));
   }
 
   @override
-  Future<Response> patch(url, {Map<String, String> headers, body, Encoding encoding}) {
-    return Future.delayed(_delay,
-            () => _client.patch(url, headers: headers, body: body, encoding: encoding));
+  Future<Response> patch(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
+    return Future.delayed(
+        _delay,
+        () => _client.patch(url,
+            headers: headers, body: body, encoding: encoding));
   }
 
   @override
-  Future<Response> put(url, {Map<String, String> headers, body, Encoding encoding}) {
-    return Future.delayed(_delay,
-            () => _client.put(url, headers: headers, body: body, encoding: encoding));
+  Future<Response> put(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
+    return Future.delayed(
+        _delay,
+        () =>
+            _client.put(url, headers: headers, body: body, encoding: encoding));
   }
 
   @override
-  Future<Response> post(url, {Map<String, String> headers, body, Encoding encoding}) {
-    return Future.delayed(_delay,
-            () => _client.post(url, headers: headers, body: body, encoding: encoding));
+  Future<Response> post(url,
+      {Map<String, String> headers, body, Encoding encoding}) {
+    return Future.delayed(
+        _delay,
+        () => _client.post(url,
+            headers: headers, body: body, encoding: encoding));
   }
 
   @override
   Future<Response> head(url, {Map<String, String> headers}) {
-    return Future.delayed(_delay,
-            () => _client.head(url, headers: headers));
+    return Future.delayed(_delay, () => _client.head(url, headers: headers));
   }
 }

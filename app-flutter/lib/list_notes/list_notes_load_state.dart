@@ -31,9 +31,9 @@ class ListNotesLoadedState extends ListNotesLoadState {
 
   @override
   Widget getWidget() => ListView.builder(
-    itemBuilder: (_, int index) => NoteItemWidget(this._notes[index]),
-    itemCount: this._notes.length,
-    padding: EdgeInsets.all(18.0));
+      itemBuilder: (_, int index) => NoteItemWidget(this._notes[index]),
+      itemCount: this._notes.length,
+      padding: EdgeInsets.all(18.0));
 }
 
 // Error
@@ -42,11 +42,8 @@ class ListNotesLoadErrorState extends ListNotesLoadState {
   ListNotesLoadErrorState(this._error);
 
   @override
-  Widget getWidget() => Center(child: Text(
-    _error.toString(),
-    style: TextStyle(
-      fontSize: 18.0,
-      color: Colors.red,
-      fontWeight: FontWeight.bold)
-    ));
+  Widget getWidget() => Center(
+      child: Text(_error.toString(),
+          style: TextStyle(
+              fontSize: 18.0, color: Colors.red, fontWeight: FontWeight.bold)));
 }
