@@ -245,6 +245,7 @@ Make sure you can see added note:
 * [Xcode](https://developer.apple.com/xcode/) IDE for iOS coding
 * [Gradle](https://gradle.org/) with Groovy DSL for building
 * [Retrofit2](https://square.github.io/retrofit/) for HTTP REST
+* [Ktor](https://ktor.io/) for multiplatform HTTP REST
 * [JavaFX8](https://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html) for Java UI
 * [Gradle Shadow plugin](https://github.com/johnrengelman/shadow) for building of jar file with all dependencies
 * [Mockito](https://site.mockito.org/) and [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin) for unit-testing

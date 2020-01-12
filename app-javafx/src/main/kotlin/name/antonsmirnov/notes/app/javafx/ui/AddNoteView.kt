@@ -14,13 +14,12 @@ import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import name.antonsmirnov.notes.app.controller.rest.AddNoteController
-import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.Note
 import name.antonsmirnov.notes.presenter.addnote.AddNoteModel
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenter
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenterImpl
 import name.antonsmirnov.notes.presenter.addnote.AddNoteView
-import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
 class AddNoteView(
     val stage: Stage
@@ -114,8 +113,8 @@ class AddNoteView(
 
     companion object {
         fun navigate(stage: Stage) {
-            val model = AddNoteModel(AddNoteController(RestApi.instance), Note("", null))
-            val presenter = AddNotePresenterImpl(model, BackgroundThreadManager())
+            val model = AddNoteModel(AddNoteController(restApiInstance), Note("", null))
+            val presenter = AddNotePresenterImpl(model)
             val view = AddNoteView(stage)
             view.show()
 

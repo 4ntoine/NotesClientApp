@@ -1,13 +1,17 @@
 package name.antonsmirnov.notes.presenter.addnote
 
-import name.antonsmirnov.notes.presenter.thread.ThreadManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import name.antonsmirnov.notes.presenter.coroutines.getDefaultDispatcher
 
 /**
  * AddNotePresenter implementation
  */
 class AddNotePresenterImpl(
     val model: AddNoteModel,
-    private val threadManager: ThreadManager
+    val dispatcher: CoroutineDispatcher = getDefaultDispatcher()
 ) : AddNotePresenter {
 
     private var view: AddNoteView? = null
@@ -16,7 +20,7 @@ class AddNotePresenterImpl(
         model.presenter = this
     }
 
-    override fun addNote() {
+    override suspend fun addNote() {
         model.addNote()
     }
 
@@ -54,8 +58,8 @@ class AddNotePresenterImpl(
 
     override fun onViewChanged() {
         // in Supervising presenter View modifies Model directly
-        view?.updateModel(model)
-        threadManager.run {
+        GlobalScope.launch(dispatcher) {
+            view?.updateModel(model)
             addNote()
             if (model.state !is AddNoteModel.State.ExecutionError) {
                 view?.showNotesList()

@@ -6,15 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatEditText
 import android.widget.Toast
-import com.google.gson.GsonBuilder
 import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.buildRestApiImpl
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlModel
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenter
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenterImpl
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlView
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ServerUrlActivity : AppCompatActivity(), ServerUrlView {
 
@@ -63,13 +62,7 @@ class ServerUrlActivity : AppCompatActivity(), ServerUrlView {
     }
 
     private fun initRestApi(host: String, port: UInt) {
-        val gson = GsonBuilder().setLenient().create()
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://$host:$port")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
-
-        RestApi.instance = retrofit.create(RestApi::class.java)
+        restApiInstance = buildRestApiImpl("http", host, port)
     }
 
     private fun bindControls() {

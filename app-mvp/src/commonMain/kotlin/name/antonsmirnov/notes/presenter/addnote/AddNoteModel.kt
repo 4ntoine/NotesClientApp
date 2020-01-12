@@ -40,7 +40,7 @@ class AddNoteModel(
             presenter?.onModelChanged()
         }
 
-    fun addNote() {
+    suspend fun addNote() {
         state = State.Executing
         try {
             val response = useCase.execute(AddNote.Request(note.title, note.body))

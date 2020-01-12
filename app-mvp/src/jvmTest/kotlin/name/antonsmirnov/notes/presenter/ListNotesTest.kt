@@ -1,11 +1,12 @@
 package name.antonsmirnov.notes.presenter
 
 import com.nhaarman.mockitokotlin2.*
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesModel
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenter
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenterImpl
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesView
-import name.antonsmirnov.notes.presenter.thread.BlockingThreadManager
 import name.antonsmirnov.notes.usecase.ListNotes
 import org.junit.Test
 import kotlin.test.AfterTest
@@ -27,7 +28,7 @@ class ListNotesTest {
     fun setUp() {
         useCase = mock()
         model = ListNotesModel(useCase)
-        presenter = ListNotesPresenterImpl(model, BlockingThreadManager())
+        presenter = ListNotesPresenterImpl(model, TestCoroutineDispatcher())
         view = mock()
 
         // see view state change visually in console
@@ -43,7 +44,7 @@ class ListNotesTest {
     }
 
     @Test
-    fun modelStateIsSetToLoaded() {
+    fun modelStateIsSetToLoaded() = runBlockingTest {
         whenever(useCase.execute()).thenReturn(ListNotes.Response(useCaseNotes))
 
         assertTrue(model.state is ListNotesModel.State.Initial)
@@ -55,7 +56,7 @@ class ListNotesTest {
     }
 
     @Test
-    fun modelStateIsSetToError() {
+    fun modelStateIsSetToError() = runBlockingTest {
         val error = Exception("No internet connection")
         /* can't use thenThrow because of following:
             org.mockito.exceptions.base.MockitoException:
@@ -72,7 +73,7 @@ class ListNotesTest {
     }
 
     @Test
-    fun modelNotifiesStateChanged() {
+    fun modelNotifiesStateChanged() = runBlockingTest {
         whenever(useCase.execute()).thenReturn(ListNotes.Response(useCaseNotes))
 
         val _presenter = mock<ListNotesPresenter>()
@@ -89,7 +90,7 @@ class ListNotesTest {
     }
 
     @Test
-    fun presenterListNotesActuallyStartsLoading() {
+    fun presenterListNotesActuallyStartsLoading() = runBlockingTest {
         whenever(useCase.execute()).thenReturn(ListNotes.Response(useCaseNotes))
 
         assertTrue(model.state is ListNotesModel.State.Initial)

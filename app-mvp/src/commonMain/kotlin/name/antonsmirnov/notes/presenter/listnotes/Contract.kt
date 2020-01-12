@@ -8,7 +8,7 @@ import name.antonsmirnov.notes.presenter.BaseView
  */
 interface ListNotesPresenter : BasePresenter<ListNotesView> {
     fun start()
-    fun listNotes()
+    suspend fun listNotes()
 
     fun onLoadRequest()
 }

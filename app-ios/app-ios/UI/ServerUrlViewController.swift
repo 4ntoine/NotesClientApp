@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import app_mvp
+import app_ios_lib
 
 class RestServerUrlModel : ServerUrlModel {
     override func update(host: String, port: UInt32) {
@@ -17,7 +17,9 @@ class RestServerUrlModel : ServerUrlModel {
     
     private func initRestApi(host: String, port: UInt32) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.rest = RestImpl(baseUrl: "\(host):\(port)", deserializer: JsonDeserializer())
+        appDelegate.rest = RestApiImplKt.buildRestApiImpl(protocol: "http",
+                                                          host: host,
+                                                          port: port)
     }
 }
 
@@ -33,8 +35,8 @@ class ServerUrlViewController: UIViewController, ServerUrlView {
     }
     
     private func initMvp() {
-        let model = RestServerUrlModel.init(_host: "http://127.0.0.1",
-                                        _port: KotlinUInt.init(integerLiteral: 8080))
+        let model = RestServerUrlModel.init(_host: "127.0.0.1",
+                                            _port: KotlinUInt.init(integerLiteral: 8080))
         let presenter = ServerUrlPresenterImpl(model: model)
         presenter.attachView(view: self)
         self.presenter = presenter

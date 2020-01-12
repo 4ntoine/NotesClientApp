@@ -12,8 +12,4 @@ interface RestApi {
 
     @GET("/api/add")
     fun addNote(@Query("title") title: String, @Query("body") body:String?): Call<AddNote.Response>
-
-    companion object {
-        lateinit var instance: RestApi
-    }
 }

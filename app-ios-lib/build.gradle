@@ -1,0 +1,112 @@
+plugins {
+    id 'kotlin-multiplatform'
+    id('org.jetbrains.kotlin.native.cocoapods')
+    id 'kotlinx-serialization'
+}
+
+kotlin {
+    targets {
+        jvm()
+        iosX64() // iOS simulator
+    }
+
+    sourceSets {
+        commonMain {
+            kotlin.srcDirs = [
+                "${project.rootDir}/app-mvp/src/commonMain/kotlin",
+                "${project.rootDir}/app-infra-rest-ktor/src/commonMain/kotlin"
+            ]
+            dependencies {
+//                # using of `implementation project(':...)` does not work and leads to compilation error:
+//                java.lang.IllegalStateException: IrClassSymbolImpl for deserialized class AddResponseJson is already bound
+//                (I believe it's because of `app-api` imported twice (1 for both project))
+//                implementation project(':app-infra-rest-ktor')
+//                implementation project(':app-mvp')
+
+//                # -ktor deps
+                api "io.ktor:ktor-client-core:$rootProject.ktor_version"
+                api "io.ktor:ktor-client-serialization:$rootProject.ktor_version"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$rootProject.coroutines_version"
+//                # both -ktor and -mvp deps
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+                api "name.antonsmirnov.notes:app-api-metadata:$rootProject.server_module_version"
+            }
+        }
+        jvmMain {
+            kotlin.srcDirs = [
+                "${project.rootDir}/app-mvp/src/jvmMain/kotlin",
+                "${project.rootDir}/app-infra-rest-ktor/src/jvmMain/kotlin"
+            ]
+            dependencies {
+//                # -ktor deps
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                // some impl dependency is requires in end module,
+                // (see https://ktor.io/clients/http-client/engines.html)
+                implementation "io.ktor:ktor-client-apache:$rootProject.ktor_version"
+                api "io.ktor:ktor-client-serialization-jvm:$rootProject.ktor_version"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$rootProject.serialization_version"
+                api "name.antonsmirnov.notes:app-api-jvm:$rootProject.server_module_version"
+            }
+        }
+        jvmTest {
+            kotlin.srcDirs = [
+                "${project.rootDir}/app-mvp/src/jvmTest/kotlin",
+                "${project.rootDir}/app-infra-rest-ktor/src/jvmTest/kotlin"
+            ]
+            dependencies {
+//                # -ktor deps
+                implementation 'org.jetbrains.kotlin:kotlin-test'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+                implementation 'com.github.tomakehurst:wiremock-jre8:2.25.1'
+                implementation 'org.slf4j:slf4j-simple:1.7.30' // for wiremock
+//                # -mvp deps
+                implementation "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.coroutines_version"
+            }
+        }
+        iosX64Main {
+            kotlin.srcDirs = [
+                "${project.rootDir}/app-mvp/src/iosX64Main/kotlin",
+                "${project.rootDir}/app-infra-rest-ktor/src/iosX64Main/kotlin"
+            ]
+            dependencies {
+//                # -ktor deps
+                implementation "io.ktor:ktor-client-ios:$rootProject.ktor_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$rootProject.serialization_version"
+                implementation "io.ktor:ktor-client-serialization-native:$rootProject.ktor_version"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$rootProject.coroutines_version"
+//                # both -ktor and -mvp deps
+                api "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
+            }
+        }
+    }
+
+    // All exceptions in Kotlin are not checked, but in Swift they are checked.
+    // So we need @Throws annotation for iOS compatibility to generate swift signatures with `.. throws -> ..`
+    // This requires @ExperimentalMultiplatform annotation in all methods with @Throws.
+    // In order to prevent adding @ExperimentalMultiplatform every here and there we can use compiler option:
+    targets.all {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += '-Xuse-experimental=kotlin.ExperimentalMultiplatform'
+            }
+        }
+    }
+}
+
+version = "$rootProject.module_version"
+
+kotlin {
+    cocoapods {
+        summary = "iOS Kotlin library of NotesClientApp"
+        homepage = "https://github.com/4ntoine/NotesClientApp"
+    }
+
+    targets.iosX64.binaries
+        .findAll { it instanceof org.jetbrains.kotlin.gradle.plugin.mpp.Framework }
+        .every {
+            it.export "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
+            it.transitiveExport = true
+        }
+}

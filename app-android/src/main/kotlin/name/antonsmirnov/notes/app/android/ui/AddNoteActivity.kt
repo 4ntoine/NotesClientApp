@@ -9,12 +9,12 @@ import android.widget.Toast
 import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.controller.rest.AddNoteController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.Note
 import name.antonsmirnov.notes.presenter.addnote.AddNoteModel
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenter
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenterImpl
 import name.antonsmirnov.notes.presenter.addnote.AddNoteView
-import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
 class AddNoteActivity : AppCompatActivity(), AddNoteView {
 
@@ -54,8 +54,8 @@ class AddNoteActivity : AppCompatActivity(), AddNoteView {
         if (lastCustomNonConfigurationInstance != null) {
             presenter = lastCustomNonConfigurationInstance as AddNotePresenter
         } else {
-            val model = AddNoteModel(AddNoteController(RestApi.instance), Note("", null))
-            presenter = AddNotePresenterImpl(model, BackgroundThreadManager())
+            val model = AddNoteModel(AddNoteController(restApiInstance), Note("", null))
+            presenter = AddNotePresenterImpl(model)
         }
         presenter?.attachView(this)
     }

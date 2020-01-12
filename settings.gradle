@@ -2,6 +2,8 @@ rootProject.name = 'NotesClientApp'
 
 include 'app-mvp'
 include 'app-infra-rest-retrofit'
+include 'app-infra-rest-ktor'
+include 'app-ios-lib'
 include 'app-android'
 include 'app-javafx'
 

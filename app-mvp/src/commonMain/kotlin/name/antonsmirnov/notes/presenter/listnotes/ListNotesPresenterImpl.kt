@@ -1,13 +1,17 @@
 package name.antonsmirnov.notes.presenter.listnotes
 
-import name.antonsmirnov.notes.presenter.thread.ThreadManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import name.antonsmirnov.notes.presenter.coroutines.getDefaultDispatcher
 
 /**
  * ListNotesPresenter implementation
  */
 class ListNotesPresenterImpl(
     val model: ListNotesModel,
-    private val threadManager: ThreadManager
+    var dispatcher: CoroutineDispatcher = getDefaultDispatcher()
 ) : ListNotesPresenter {
 
     private var view: ListNotesView? = null
@@ -18,14 +22,18 @@ class ListNotesPresenterImpl(
 
     override fun start() {
         if (model.state == ListNotesModel.State.Initial) {
+            startListNotes()
+        }
+    }
+
+    private fun startListNotes() {
+        GlobalScope.launch(dispatcher) {
             listNotes()
         }
     }
 
-    override fun listNotes() {
-        threadManager.run {
-            model.listNotes()
-        }
+    override suspend fun listNotes() {
+        model.listNotes()
     }
 
     override fun attachView(view: ListNotesView) {
@@ -64,7 +72,7 @@ class ListNotesPresenterImpl(
     }
 
     override fun onLoadRequest() {
-        listNotes()
+        startListNotes()
     }
 
     override fun onViewDetached() {

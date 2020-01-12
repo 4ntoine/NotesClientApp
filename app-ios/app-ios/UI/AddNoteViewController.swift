@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import app_mvp
+import app_ios_lib
 
 class AddNoteViewController: UIViewController, AddNoteView {
     
@@ -23,12 +23,12 @@ class AddNoteViewController: UIViewController, AddNoteView {
     
     private func initMvp() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let useCase = appDelegate.rest!
+        let useCase = AddNoteController(api: appDelegate.rest!)
         
         let note = Note(title: "", body: nil)
         let model = AddNoteModel(useCase: useCase, note: note)
-        // TODO: use BackgroundThreadManager (currently crashes for unknown reason)
-        let presenter = AddNotePresenterImpl(model: model, threadManager: BlockingThreadManager())
+        let presenter = AddNotePresenterImpl(model: model,
+                                             dispatcher: ApplicationDispatcherKt.getDefaultDispatcher())
         presenter.attachView(view: self)
         self.presenter = presenter
     }

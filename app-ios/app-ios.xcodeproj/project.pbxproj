@@ -20,7 +20,6 @@
 		56F84A7922E0DBD400A3FE13 /* Deserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F84A7822E0DBD400A3FE13 /* Deserializer.swift */; };
 		56F84A7B22E0DD8700A3FE13 /* DeserializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F84A7A22E0DD8700A3FE13 /* DeserializerTests.swift */; };
 		56F84A7D22E0EEE400A3FE13 /* RestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F84A7C22E0EEE400A3FE13 /* RestTests.swift */; };
-		56FB31F022E1F7590092EADE /* ThreadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FB31EF22E1F7590092EADE /* ThreadManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +52,6 @@
 		56F84A7822E0DBD400A3FE13 /* Deserializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deserializer.swift; sourceTree = "<group>"; };
 		56F84A7A22E0DD8700A3FE13 /* DeserializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeserializerTests.swift; sourceTree = "<group>"; };
 		56F84A7C22E0EEE400A3FE13 /* RestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTests.swift; sourceTree = "<group>"; };
-		56FB31EF22E1F7590092EADE /* ThreadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadManager.swift; sourceTree = "<group>"; };
 		633EB2264CF85066E8818815 /* Pods-app-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-iosTests.release.xcconfig"; path = "Target Support Files/Pods-app-iosTests/Pods-app-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B3770D6E3C4269351924BDD /* Pods_app_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_app_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D64F3804B470A93BE0C42A0 /* Pods-app-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-app-iosTests/Pods-app-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				569B7AEE22DCED1F0015F1F3 /* Assets.xcassets */,
 				569B7AF022DCED1F0015F1F3 /* LaunchScreen.storyboard */,
 				569B7AF322DCED1F0015F1F3 /* Info.plist */,
-				56FB31EF22E1F7590092EADE /* ThreadManager.swift */,
 			);
 			path = "app-ios";
 			sourceTree = "<group>";
@@ -296,7 +293,6 @@
 				569B7AEA22DCED1E0015F1F3 /* ServerUrlViewController.swift in Sources */,
 				5688F62C22E25C5F00F76472 /* AddNoteViewController.swift in Sources */,
 				569B7AE822DCED1E0015F1F3 /* AppDelegate.swift in Sources */,
-				56FB31F022E1F7590092EADE /* ThreadManager.swift in Sources */,
 				5688F62E22E26F3000F76472 /* ListNotesViewController.swift in Sources */,
 				5688F63022E272A900F76472 /* NoteViewCell.swift in Sources */,
 				564EB6BE22DCFE2200A7E0D1 /* RestApi.swift in Sources */,

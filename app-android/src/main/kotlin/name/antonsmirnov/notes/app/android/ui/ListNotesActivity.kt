@@ -13,11 +13,11 @@ import name.antonsmirnov.notes.app.android.R
 import name.antonsmirnov.notes.app.android.adapter.ListNotesAdapter
 import name.antonsmirnov.notes.app.controller.rest.ListNotesController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesModel
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenter
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenterImpl
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesView
-import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 import android.view.View as AndroidView
 
 class ListNotesActivity : AppCompatActivity(), ListNotesView {
@@ -45,8 +45,8 @@ class ListNotesActivity : AppCompatActivity(), ListNotesView {
         if (lastCustomNonConfigurationInstance != null) {
             presenter = lastCustomNonConfigurationInstance as ListNotesPresenter
         } else {
-            val model = ListNotesModel(ListNotesController(RestApi.instance))
-            presenter = ListNotesPresenterImpl(model, BackgroundThreadManager())
+            val model = ListNotesModel(ListNotesController(restApiInstance))
+            presenter = ListNotesPresenterImpl(model)
         }
         presenter?.attachView(this)
     }

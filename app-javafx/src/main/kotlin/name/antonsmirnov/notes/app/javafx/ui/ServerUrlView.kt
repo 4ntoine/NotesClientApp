@@ -1,6 +1,5 @@
 package name.antonsmirnov.notes.app.javafx.ui
 
-import com.google.gson.GsonBuilder
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.geometry.Insets
@@ -12,13 +11,12 @@ import javafx.scene.control.MenuItem
 import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.buildRestApiImpl
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlModel
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenter
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlPresenterImpl
 import name.antonsmirnov.notes.presenter.serverurl.ServerUrlView
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ServerUrlView(
     val stage: Stage
@@ -88,13 +86,7 @@ class ServerUrlView(
 
     companion object {
         private fun initRestApi(host: String, port: UInt) {
-            val gson = GsonBuilder().setLenient().create()
-            val retrofit = Retrofit.Builder()
-                    .baseUrl("http://$host:$port")
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
-
-            RestApi.instance = retrofit.create(RestApi::class.java)
+            restApiInstance = buildRestApiImpl("http", host, port)
         }
 
         fun navigate(stage: Stage) {

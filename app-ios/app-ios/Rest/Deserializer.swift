@@ -7,14 +7,16 @@
 //
 
 import Foundation
-import app_mvp
+import app_ios_lib
 
-protocol Deserializer {
+protocol SwiftDeserializer {
     func deserializeListNotes(data: Data) throws -> ListNotesResponse
     func deserializeAddNote(data: Data) throws -> AddNoteResponse
 }
 
-class JsonDeserializer : Deserializer {
+// alternative impl to K/N's one
+// left just for an example
+class SwiftJsonDeserializer : SwiftDeserializer {
     
     func deserializeListNotes(data: Data) throws -> ListNotesResponse {
         var notes = [ListNotesNote]()

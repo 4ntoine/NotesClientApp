@@ -6,7 +6,7 @@ class AddNoteController(
     val api: RestApi
 ) : AddNote {
 
-    override fun execute(request: AddNote.Request): AddNote.Response {
+    override suspend fun execute(request: AddNote.Request): AddNote.Response {
         val result = api.addNote(request.title, request.body).execute()
         return if (result.isSuccessful)
             result.body()!!

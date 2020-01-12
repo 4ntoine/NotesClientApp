@@ -1,11 +1,12 @@
 package name.antonsmirnov.notes.presenter
 
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import com.nhaarman.mockitokotlin2.*
 import name.antonsmirnov.notes.presenter.addnote.AddNoteModel
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenter
 import name.antonsmirnov.notes.presenter.addnote.AddNotePresenterImpl
 import name.antonsmirnov.notes.presenter.addnote.AddNoteView
-import name.antonsmirnov.notes.presenter.thread.BlockingThreadManager
 import name.antonsmirnov.notes.usecase.AddNote
 import org.junit.Test
 import kotlin.test.AfterTest
@@ -28,7 +29,7 @@ class AddNoteTest {
         note = Note(null, "", null)
         useCase = mock()
         model = AddNoteModel(useCase, note)
-        presenter = AddNotePresenterImpl(model, BlockingThreadManager())
+        presenter = AddNotePresenterImpl(model, TestCoroutineDispatcher())
         view = mock()
 
         // see view state change visually in console
@@ -44,7 +45,7 @@ class AddNoteTest {
     }
 
     @Test
-    fun modelStateIsSetToLoaded() {
+    fun modelStateIsSetToLoaded() = runBlockingTest {
         whenever(useCase.execute(any())).thenReturn(AddNote.Response(id))
 
         assertTrue(model.state is AddNoteModel.State.Initial)
@@ -56,7 +57,7 @@ class AddNoteTest {
     }
 
     @Test
-    fun modelStateIsSetToError() {
+    fun modelStateIsSetToError() = runBlockingTest {
         val error = Exception("No internet connection")
         /* can't use thenThrow because of following:
             org.mockito.exceptions.base.MockitoException:
@@ -73,7 +74,7 @@ class AddNoteTest {
     }
 
     @Test
-    fun modelNotifiesStateChanged() {
+    fun modelNotifiesStateChanged() = runBlockingTest {
         whenever(useCase.execute(any())).thenReturn(AddNote.Response(id))
 
         val _presenter = mock<AddNotePresenter>()
@@ -90,7 +91,7 @@ class AddNoteTest {
     }
 
     @Test
-    fun presenterAddNoteActuallyStartsAdding() {
+    fun presenterAddNoteActuallyStartsAdding() = runBlockingTest {
         whenever(useCase.execute(any())).thenReturn(AddNote.Response(id))
 
         assertTrue(model.state is AddNoteModel.State.Initial)
@@ -102,7 +103,7 @@ class AddNoteTest {
     }
 
     @Test
-    fun presenterUpdatesModelFromView() {
+    fun presenterUpdatesModelFromView() = runBlockingTest {
         whenever(useCase.execute(any())).thenReturn(AddNote.Response(id))
         val newTitle = "new title"
         val newBody = "new body"

@@ -1,7 +1,6 @@
 plugins {
     id 'idea'
     id 'kotlin-multiplatform'
-    id('org.jetbrains.kotlin.native.cocoapods')
 }
 
 kotlin {
@@ -15,12 +14,14 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
                 api "name.antonsmirnov.notes:app-api-metadata:$rootProject.server_module_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$rootProject.coroutines_version"
             }
         }
         jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 api "name.antonsmirnov.notes:app-api-jvm:$rootProject.server_module_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines_version"
             }
         }
         jvmTest {
@@ -28,11 +29,14 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
                 implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.coroutines_version"
             }
         }
         iosX64Main {
             dependencies {
                 api "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$rootProject.coroutines_version"
             }
         }
     }
@@ -51,17 +55,3 @@ kotlin {
 }
 
 version = "$rootProject.module_version"
-
-kotlin {
-    cocoapods {
-        summary = "App MVP of NotesClientApp"
-        homepage = "https://github.com/4ntoine/NotesClientApp"
-    }
-
-    targets.iosX64.binaries
-        .findAll { it instanceof org.jetbrains.kotlin.gradle.plugin.mpp.Framework }
-        .every {
-            it.export "name.antonsmirnov.notes:app-api-iosx64:$rootProject.server_module_version"
-            it.transitiveExport = true
-        }
-}

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import app_mvp
+import app_ios_lib
 
 // TODO: add loading indicator
 class ListNotesViewController: UITableViewController, ListNotesView {
@@ -18,14 +18,14 @@ class ListNotesViewController: UITableViewController, ListNotesView {
         initMvp()
         (presenter as! ListNotesPresenter).start()
     }
-    
+
     private func initMvp() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let useCase = appDelegate.rest!
+        let useCase = ListNotesController(api: appDelegate.rest!)
         
         let model = ListNotesModel(useCase: useCase)
-        // TODO: use BackgroundThreadManager (currently crashes for unknown reason)
-        let presenter = ListNotesPresenterImpl(model: model, threadManager: BlockingThreadManager())
+        let presenter = ListNotesPresenterImpl(model: model,
+                                               dispatcher: ApplicationDispatcherKt.getDefaultDispatcher())
         presenter.attachView(view: self)
         self.presenter = presenter
     }

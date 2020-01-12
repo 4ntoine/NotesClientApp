@@ -7,12 +7,11 @@
 //
 
 import XCTest
-@testable import app_ios
-@testable import app_mvp
+import app_ios_lib
 
 class RestTests: XCTestCase {
 
-    let impl = RestImpl(baseUrl: "http://127.0.0.1:8080", deserializer: JsonDeserializer())
+    let impl = SwiftRestImpl(baseUrl: "http://127.0.0.1:8080", deserializer: SwiftJsonDeserializer())
     
     func testServerError() throws {
         let impl = RestImpl(baseUrl: "inexistingDomain.blabla", deserializer: JsonDeserializer())

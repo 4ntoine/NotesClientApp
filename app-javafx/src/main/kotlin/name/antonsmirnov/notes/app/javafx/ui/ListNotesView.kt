@@ -20,12 +20,12 @@ import javafx.scene.text.Font
 import javafx.stage.Stage
 import name.antonsmirnov.notes.app.controller.rest.ListNotesController
 import name.antonsmirnov.notes.app.controller.rest.RestApi
+import name.antonsmirnov.notes.app.controller.rest.restApiInstance
 import name.antonsmirnov.notes.presenter.Note
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesModel
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenter
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesPresenterImpl
 import name.antonsmirnov.notes.presenter.listnotes.ListNotesView
-import name.antonsmirnov.notes.presenter.thread.BackgroundThreadManager
 
 class ListNotesView(
     val stage: Stage
@@ -153,8 +153,8 @@ class ListNotesView(
 
     companion object {
         fun navigate(stage: Stage) {
-            val model = ListNotesModel(ListNotesController(RestApi.instance))
-            val presenter = ListNotesPresenterImpl(model, BackgroundThreadManager())
+            val model = ListNotesModel(ListNotesController(restApiInstance))
+            val presenter = ListNotesPresenterImpl(model)
             val view = ListNotesView(stage)
             view.show()
 

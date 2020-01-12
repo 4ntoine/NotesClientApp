@@ -39,7 +39,7 @@ class ListNotesModel(
             presenter?.onModelChanged()
         }
 
-    fun listNotes() {
+    suspend fun listNotes() {
         state = State.Loading
         try {
             val response = useCase.execute()

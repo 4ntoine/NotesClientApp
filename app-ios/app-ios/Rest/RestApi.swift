@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import app_mvp
+import app_ios_lib
 
-protocol RestApi : ListNotes, AddNote {
+protocol SwiftRestApi : ListNotes, AddNote {
     
 }
 
@@ -19,12 +19,14 @@ enum RestApiError: Error {
     case InvalidJson
 }
 
-class RestImpl : RestApi {
+// alternative impl to K/N's one
+// left just for an example
+class SwiftRestImpl : SwiftRestApi {
 
     private let baseUrl: URL
-    private let deserializer: Deserializer
+    private let deserializer: SwiftDeserializer
 
-    init(baseUrl: String, deserializer: Deserializer) {
+    init(baseUrl: String, deserializer: SwiftDeserializer) {
         self.baseUrl = URL(string: baseUrl)!
         self.deserializer = deserializer
     }

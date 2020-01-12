@@ -7,12 +7,11 @@
 //
 
 import XCTest
-@testable import app_ios
-@testable import app_mvp
+import app_ios_lib
 
 class DeserializerTests: XCTestCase {
 
-    let deserializer: Deserializer = JsonDeserializer()
+    let deserializer: SwiftDeserializer = SwiftJsonDeserializer()
 
     func testListNotesEmpty() throws {
         let json = #"{"notes":[]}"#

@@ -7,7 +7,7 @@ import name.antonsmirnov.notes.presenter.BaseView
  * MVP : Presenter (Supervising flavor)
  */
 interface AddNotePresenter : BasePresenter<AddNoteView> {
-    fun addNote()
+    suspend fun addNote()
 }
 
 /**
