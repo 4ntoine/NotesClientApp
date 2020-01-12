@@ -35,7 +35,7 @@ before_script:
   - git clone https://github.com/flutter/flutter.git flutter-dist
   - ./flutter-dist/bin/flutter doctor
 script:
-  - ./gradlew clean test
+  - ./gradlew clean test jvmTest
   - ./gradlew clean assemble podspec
 # Android app
   - ./gradlew clean app-android:assemble
