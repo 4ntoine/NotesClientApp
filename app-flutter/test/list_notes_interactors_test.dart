@@ -22,7 +22,7 @@ void main() {
         '{"notes": [ {"id":"$id1", "title":"$title1", "body":"$body1"} ]}',
         200));
 
-    final interactor = ServerListNotesInteractor(url, client);
+    final interactor = ServerListNotesInteractor(url, () => client);
     final response = await interactor.listNotes();
     final notes = response.notes;
 
@@ -45,7 +45,7 @@ void main() {
         }
         """, 200));
 
-    final interactor = ServerListNotesInteractor(url, client);
+    final interactor = ServerListNotesInteractor(url, () => client);
     final response = await interactor.listNotes();
     final notes = response.notes;
 

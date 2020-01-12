@@ -17,7 +17,7 @@ void main() {
     when(client.get(any))
         .thenAnswer((_) async => http.Response('{"id": "$id"}', 200));
 
-    final interactor = ServerAddNoteInteractor(url, client);
+    final interactor = ServerAddNoteInteractor(url, () => client);
     final response = await interactor.addNote(AddNoteRequest(title, body));
 
     expect(response.id, equals(id));

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return _getMethodUri(context, '/add');
   }
 
-  static final _httpClient = TimeoutWrapper(
+  static final _clientFactory = () => TimeoutWrapper(
       Duration(seconds: 3),
       DelayWrapper(
           // help to better visualize it's long-running operation
@@ -49,14 +49,14 @@ class MyApp extends StatelessWidget {
           });
 
   static final addNoteScreenBuilder = (BuildContext context) => AddNoteScreen(
-          ServerAddNoteInteractor(_getAddNoteUri(context), _httpClient), (_) {
+          ServerAddNoteInteractor(_getAddNoteUri(context), _clientFactory), (_) {
         // "Add Note" successful, navigating to list screen
         ListNotesScreen.navigateTo(context);
       });
 
   static final listNotesScreenBuilder = (BuildContext context) =>
       ListNotesScreen(
-          ServerListNotesInteractor(_getListNotesUri(context), _httpClient),
+          ServerListNotesInteractor(_getListNotesUri(context), _clientFactory),
           () {
         // "Add Note" tapped, navigating to according screen
         AddNoteScreen.navigateTo(context, false);

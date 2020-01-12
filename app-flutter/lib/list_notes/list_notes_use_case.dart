@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_flutter/http/factory.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -47,19 +48,24 @@ class ListNotesResponseJson {
 // impl that interacts with server over http (json)
 class ServerListNotesInteractor extends ListNotesUseCase {
   final Uri _uri;
-  final http.Client _client;
-  ServerListNotesInteractor(this._uri, [this._client]);
+  final HttpClientFactoryMethod _httpClientFactoryMethod;
+  ServerListNotesInteractor(this._uri, [this._httpClientFactoryMethod]);
 
   @override
   Future<ListNotesResponse> listNotes() async {
-    final client = _client ?? http.Client();
-    final response = await client.get(_uri);
-    if (response.statusCode == 200) {
-      final notes = ListNotesResponseJson.fromJson(json.decode(response.body));
-      return ListNotesResponse(
-          notes.notes.map((it) => Note(it.id, it.title, it.body)).toList());
-    } else {
-      throw Exception('Unexpected HTTP status code: ${response.statusCode}');
+    final httpClient = (_httpClientFactoryMethod ?? () => http.Client())();
+    final response = await httpClient.get(_uri);
+    try {
+      if (response.statusCode == 200) {
+        final notes = ListNotesResponseJson.fromJson(
+            json.decode(response.body));
+        return ListNotesResponse(
+            notes.notes.map((it) => Note(it.id, it.title, it.body)).toList());
+      } else {
+        throw Exception('Unexpected HTTP status code: ${response.statusCode}');
+      }
+    } finally {
+      httpClient.close();
     }
   }
 }

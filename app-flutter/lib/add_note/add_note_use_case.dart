@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_flutter/http/factory.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -47,12 +48,12 @@ class AddNoteResponseJson {
 // impl that interacts with server over http (json)
 class ServerAddNoteInteractor extends AddNoteUseCase {
   final Uri _uri;
-  final http.Client _client;
-  ServerAddNoteInteractor(this._uri, [this._client]);
+  final HttpClientFactoryMethod _httpClientFactoryMethod;
+  ServerAddNoteInteractor(this._uri, [this._httpClientFactoryMethod]);
 
   @override
   Future<AddNoteResponse> addNote(AddNoteRequest request) async {
-    final client = _client ?? http.Client();
+    final httpClient = (_httpClientFactoryMethod ?? () => http.Client())();
     final queryParams = {'title': request.title, 'body': request.body};
     final uri = Uri(
         scheme: _uri.scheme,
@@ -60,13 +61,17 @@ class ServerAddNoteInteractor extends AddNoteUseCase {
         port: _uri.port,
         path: _uri.path,
         queryParameters: queryParams);
-    final response = await client.get(uri);
-    if (response.statusCode == 200) {
-      final addResponse =
-          AddNoteResponseJson.fromJson(json.decode(response.body));
-      return AddNoteResponse(addResponse.id);
-    } else {
-      throw Exception('Unexpected HTTP status code: ${response.statusCode}');
+    final response = await httpClient.get(uri);
+    try {
+      if (response.statusCode == 200) {
+        final addResponse =
+        AddNoteResponseJson.fromJson(json.decode(response.body));
+        return AddNoteResponse(addResponse.id);
+      } else {
+        throw Exception('Unexpected HTTP status code: ${response.statusCode}');
+      }
+    } finally {
+      httpClient.close();
     }
   }
 }
